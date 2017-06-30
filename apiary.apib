@@ -1,0 +1,361 @@
+FORMAT: 1A
+HOST: https://portal.plantyst.com/api/
+
+# Plantyst Portal
+
+Plantyst API is a simple API allowing consumers view Measurements, Metrics and other data types.
+
+# Group Measurement
+
+Resources related to measurements in the API.
+
+## Measurements Collection [/Measurements/{?currentSubscriptionOnly}]
+
+### List Measurements [GET]
+
+Gets list of measurements assigned to the currently signed up user along with
+array of rights the user has to each of the measurements. The `rights` may be one
+of the following (so far being in inclusion, i. e. each subsequent right contains
+the previous):
+* View - view measurement data.
+* Contributor - contribute additional information (ie. annotations) for measurement.
+* Admin - edit everithing in the measurement, include access rigths for other.
+* Owner - same as Admin, but the access rigths can't be revoked.
+
+In response, each of the members of the `_embeded` object contains:
+* `timezone` Array of available timezones. ???
+* `tag` Array of all tags for given measurements. ???
+* `measurementDataVersion` Array of measurement data version. ???
+* `measurement` Array of measurements assigned to the currently signed up user.
+
++ Parameters
+    + currentSubscriptionOnly (boolean, `false`) ... Give measurements for current subscription only ???
+
++ Response 200 (application/hal+json)
+    + Body
+
+            {
+                "_links": {
+                    "_self": {
+                        "href":"/Api/Measurements"
+                    }
+                },
+                "_embedded": {
+                    "timezone": [
+                        {
+                            "id":"Central Europe Standard Time",
+                            "name":"(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague",
+                            "iana":"Europe/Prague",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/TimeZone/Central%20Europe%20Standard%20Time"
+                                }
+                            }
+                        }
+                    ],
+                    "tag": [
+                        {
+                            "id":"12",
+                            "title":"Výroba lodí",
+                            "color":"#9B59B6",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/Tag/12"
+                                }
+                            }
+                        }
+                    ],
+                    "measurementDataVersion": [
+                        {
+                            "id":"13",
+                            "title":"TimeSeries",
+                            "lastModified":"2016-10-25T16:05:00Z",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/MeasurementDataVersion/13"
+                                }
+                            }
+                        }
+                    ],
+                    "measurement": [
+                        {
+                            "measurementId":14,
+                            "title":"Stroj 01",
+                            "description":"![Image](/api/UserMeasurementContent/?measurementId=593&contentId=machineImage.jpg)",
+                            "quantityType":"stroke",
+                            "archived":false,
+                            "first":"2016-03-18T06:42:29Z",
+                            "rights":[
+                                "View"
+                            ],
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/Measurement/14"
+                                },
+                                "timezone": {
+                                    "href":"/Api/TimeZone/Central%20Europe%20Standard%20Time"
+                                },
+                                "tags": {"href":"/Api/Tag/12"},
+                                "dataVersions": [ 
+                                    {
+                                        "href":"/Api/MeasurementDataVersion/13"
+                                    }
+                                ],
+                                "annotations": {
+                                    "href":"/Api/Measurement/14/Annotations"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+
++ Response 401 (application/hal+json)
+    + Body
+    
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
+# Group Measurement Data
+
+Resources related to measurements data in the API.
+
+## Measurement Time Series Aggregation Collection [/MeasurementTimeSeriesAggregationsQuery]
+
+### List Measurement Time Series Aggregation [POST]
+
+Gets list of Time Series Aggregation for the given measurement.
+
+The request contains `Queries` array. Its members contain:
+* `MeasurementId` (int) - required. Identifies the ID of the measurement.
+* `From` (DateTime) - required. Specifies the lower bound of the data query.
+* `To` (DateTime) - required. Specifies the upper bound of the data query.
+* `View` (string) - required. Identifies the measurement view to be used.
+* `Precision` (int) - Specifies the number of precision.
+
+The `view` available for the given measurement is provided in the `results` 
+of Measurement API endpoint.
+
+In the response, each of the members of the `results` array contains objects:
+* `query` - A copy of a query from the *request*, identifying which query the result belongs to.
+* `outputFormat` - Array of fields present in the `data` array. The array defines the meaning of the *data* values
+in their respective order, as they are n-uples put into a single, one-dimensional array.
+The n-uple is described by n elements of the `outputFormat` array.
+The array may contain the following values:
+    * `itemCount` *int*. Omittable.
+    * `timeSquareSum` *long*. Omittable.
+    * `timeSum` *long*. Omittable.
+    * `timeValueSum` *double*. Omittable.
+    * `valueSum` *double*. Always present, specifies the count of items in the aggregation..
+* `data` - The result of the query in format described by the `outputFormat` array.
+
++ Request (application/hal+json)
+    + Attributes
+        + query (object)
+            + MeasurementId (number, required) - Identifies the ID of the measurement.
+            + From (number, required) - Timestamp, specifies the lower bound of the data query.
+            + To (number, required) - Timestamp, specifies the upper bound of the data query.
+            + View (string, required) - Identifies the measurement view to be used.
+            + Precision (number, required) - Specifies the number of precision.
+    + Body
+
+            {
+                "Queries": [
+                    {
+                        "MeasurementId": 15,
+                        "From": "2017-06-01T00:00:00Z",
+                        "To": "2017-06-01T00:09:00Z",
+                        "View": "Base.MinuteSet",
+                        "Precision": "2"
+                    },
+                    {
+                        "MeasurementId": 16,
+                        "From": "2017-06-01T00:00:00Z",
+                        "To": "2017-06-01T00:09:00Z",
+                        "View": "Base.MinuteSet",
+                        "Precision": "2"
+                    }
+                ]
+            }
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + result (object)
+            + view (string, required) - Identifies the measurement view to be used. 
+            + precision (number, required) - Specifies the number of precision.
+            + measurementId (number, required) - Identifies the ID of the measurement.
+            + from (number, required) - Timestamp, specifies the lower bound of the data query.
+            + to (number, required) - Timestamp, specifies the upper bound of the data query.
+    
+    + Body
+
+            {
+                "results": [
+                    {
+                        "query": {
+                            "view": "Base.MinuteSet",
+                            "precision": "2",
+                            "measurementId": 15,
+                            "from": "2017-05-31T22:00Z",
+                            "to": "2017-05-31T22:09Z"
+                        },
+                        "outputFormat": [
+                            "ValueSum"
+                        ],
+                        "data":[0,0,3,10,11,10,9,11,10,7],
+                        "first":"2017-05-31Z22:00:00Z"
+                    },
+                    {
+                        "query": {
+                            "view": "Base.MinuteSet",
+                            "precision": "2",
+                            "measurementId": 16,
+                            "from": "2017-05-31T22:00Z",
+                            "to": "2017-05-31T22:09Z"
+                        },
+                        "outputFormat": [
+                            "ValueSum"
+                        ],
+                        "data":[7,13,11,11,8,9,11,6,6,0],
+                        "first":"2017-05-31Z22:00:00Z"
+                    }
+                ]
+            }
+
++ Response 401 (application/hal+json)
+    + Body
+    
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
+# Group Metadocuments
+
+Resources related to metadocuments in the API.
+
+## Metadocument [/Metadocuments]
+
+### Add Metadocument [POST]
+
+Adds metadocument of given type for the specific measurement.
+
+The request contains `QueriesAAAAA` array. Its members contain:
+* `MeasurementId` (int) - required. Identifies the ID of the measurement.
+* `MetadocumentType` (int) - required. Identifies type of metadocument
+The `MetadocumentType` may contain the following values:
+    * `0` *int* The undefined type.
+    * `1` *int* The annotation.
+    * `2` *int* The job.
+* `From` (DateTime) - required. Specifies the metadocument validity from.
+* `To` (DateTime) - required. Specifies the metadocument validity to.
+* `Title` (string) - required. Title of metadocument.
+* `Setpoint` (int) - The setpoint.
+* `Color` (string) - The color in hex color code.
+
+The response, has following structure:
+* `guid` - The unique identificator of metadocument.
+* `type` - The type of metadocument.
+* `title` - The title.
+* `creatorId` - The unique identificator of metadocument creator.
+* `measurementId` - Identifies the ID of the measurement.
+* `from` - The metadocument validity from.
+* `to` - The metadocument validity to.
+* `color` - The color in hex color code.
+* `setpoint` - The setpoint.
+* `lastModified` - The last modified date.
+
++ Response 200 (application/hal+json)
+    + Body
+    
+            {
+                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
+                "type":2,
+                "title":"Job title",
+                "creatorId":497,
+                "measurementId":669,
+                "from":"2017-06-26T05:30:00Z",
+                "to":"2017-06-26T07:30:00Z",
+                "color":"#969614",
+                "setpoint":50.0,
+                "lastModified":"1970-01-01T00:00:00Z",
+                "_links": {
+                    "self": {
+                        "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6"
+                    }
+                },
+                "_embedded": {
+                    "user": [
+                        {
+                            "userId":497,
+                            "name":"Martin Kouďa",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/User/497"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+
++ Response 401  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Forbidden."
+            }
+
+### Get Metadocument [GET]
+
+Gets metadocument with specific Guid.
+
+The request contains one member:
+* `guid` (string) - The unique identificator of metadocument.
+
+The response, has following structure:
+* `guid` - The unique identificator of metadocument.
+* `type` - The type of metadocument.
+* `title` - The title.
+* `creatorId` - The unique identificator of metadocument creator.
+* `measurementId` - Identifies the ID of the measurement.
+* `from` - The metadocument validity from.
+* `to` - The metadocument validity to.
+* `color` - The color in hex color code.
+* `setpoint` - The setpoint.
+* `lastModified` - The last modified date.
+
++ Response 200 (application/hal+json)
+    + Body
+    
+            {
+                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
+                "type":2,
+                "title":"Job title",
+                "creatorId":497,
+                "measurementId":669,
+                "from":"2017-06-26T05:30:00Z",
+                "to":"2017-06-26T07:30:00Z",
+                "color":"#969614",
+                "setpoint":50.0,
+                "lastModified":"2017-06-26T09:25:15Z",
+                "_links": {
+                    "self": {
+                        "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6"
+                    }
+                }
+            }
+
++ Response 401  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Authorization has been denied for this request."
+            }
