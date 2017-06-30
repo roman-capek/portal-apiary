@@ -47,79 +47,181 @@ Along with the measurements, additional data are sent in the `_embeded` resource
     + Body
 
             {
-                "_links": {
-                    "_self": {
-                        "href":"/Api/Measurements"
+                "timeZones": [
+                    {
+                        "id": "Central Europe Standard Time",
+                        "name": "(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague",
+                        "iana": "Europe/Prague",
+                        "_links": [
+                            {
+                                "rel": "self",
+                                "href": "~/Api/TimeZone/Central%20Europe%20Standard%20Time",
+                                "title": null,
+                                "isTemplated": false
+                            }
+                        ],
+                    "_embedded": null
                     }
+                ],
+                "tags": [
+                    {
+                        "id": "83",
+                        "title": "Technology",
+                        "color": "#E67E22",
+                        "_links": [
+                            {
+                                "rel": "self",
+                                "href": "~/Api/Tag/83",
+                                "title": null,
+                                "isTemplated": false
+                            }
+                        ],
+                        "_embedded": null
+                    },
+                    {
+                        "id": "82",
+                        "title": "Shop 1",
+                        "color": "#1ABC9C",
+                        "_links": [
+                            {
+                                "rel": "self",
+                                "href": "~/Api/Tag/82",
+                                "title": null,
+                                "isTemplated": false
+                            }
+                        ],
+                        "_embedded": null
+                    }
+                ],
+                "dataVersions": [
+                    {
+                        "id": "414",
+                        "title": "TimeSeries",
+                        "lastModified": "2016-10-25T16:05:00Z",
+                        "_links": [
+                            {
+                                "rel": "self",
+                                "href": "~/Api/MeasurementDataVersion/414",
+                                "title": null,
+                                "isTemplated": false
+                            }
+                        ],
+                        "_embedded": null
+                    },
+                    {
+                        "id": "415",
+                        "title": "TimeSeries",
+                        "lastModified": "2016-10-25T16:05:00Z",
+                        "_links": [
+                            {
+                                "rel": "self",
+                                "href": "~/Api/MeasurementDataVersion/415",
+                                "title": null,
+                                "isTemplated": false
+                            }
+                        ],
+                        "_embedded": null
+                    }
+                ],
+                "resourceList": [
+                {
+                    "measurementId": 695,
+                    "title": "Stroj 02",
+                    "description": "Access for presentations",
+                    "quantityType": "speed",
+                    "archived": false,
+                    "first": "2016-01-01T00:00:00Z",
+                    "rights": [
+                        "Admin"
+                    ],
+                    "_links": [
+                        {
+                            "rel": "self",
+                            "href": "~/Api/Measurement/695",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                    {
+                        "rel": "timezone",
+                        "href": "~/Api/TimeZone/Central%20Europe%20Standard%20Time",
+                        "title": null,
+                        "isTemplated": false
+                    },
+                    {
+                        "rel": "tags",
+                        "href": "~/Api/Tag/82",
+                        "title": null,
+                        "isTemplated": false
+                    },
+                    {
+                        "rel": "dataVersions",
+                        "href": "~/Api/MeasurementDataVersion/414",
+                        "title": null,
+                        "isTemplated": false
+                    },
+                    {
+                        "rel": "annotations",
+                        "href": "~/Api/Measurement/695/Annotations",
+                        "title": null,
+                        "isTemplated": false
+                    }
+                ],
+                "_embedded": null
                 },
-                "_embedded": {
-                    "timezone": [
+                {
+                    "measurementId": 696,
+                    "title": "Stroj 33",
+                    "description": "Access for presentations",
+                    "quantityType": "speed",
+                    "archived": false,
+                    "first": "2016-01-01T00:00:00Z",
+                    "rights": [
+                        "Admin"
+                    ],
+                    "_links": [
                         {
-                            "id":"Central Europe Standard Time",
-                            "name":"(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague",
-                            "iana":"Europe/Prague",
-                            "_links": {
-                                "self": {
-                                    "href":"/Api/TimeZone/Central%20Europe%20Standard%20Time"
-                                }
-                            }
+                            "rel": "self",
+                            "href": "~/Api/Measurement/696",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "timezone",
+                            "href": "~/Api/TimeZone/Central%20Europe%20Standard%20Time",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "tags",
+                            "href": "~/Api/Tag/83",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "dataVersions",
+                            "href": "~/Api/MeasurementDataVersion/415",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "annotations",
+                            "href": "~/Api/Measurement/696/Annotations",
+                            "title": null,
+                            "isTemplated": false
                         }
                     ],
-                    "tag": [
-                        {
-                            "id":"12",
-                            "title":"Výroba lodí",
-                            "color":"#9B59B6",
-                            "_links": {
-                                "self": {
-                                    "href":"/Api/Tag/12"
-                                }
-                            }
-                        }
-                    ],
-                    "measurementDataVersion": [
-                        {
-                            "id":"13",
-                            "title":"TimeSeries",
-                            "lastModified":"2016-10-25T16:05:00Z",
-                            "_links": {
-                                "self": {
-                                    "href":"/Api/MeasurementDataVersion/13"
-                                }
-                            }
-                        }
-                    ],
-                    "measurement": [
-                        {
-                            "measurementId":14,
-                            "title":"Stroj 01",
-                            "description":"![Image](/api/UserMeasurementContent/?measurementId=593&contentId=machineImage.jpg)",
-                            "quantityType":"stroke",
-                            "archived":false,
-                            "first":"2016-03-18T06:42:29Z",
-                            "rights":[
-                                "View"
-                            ],
-                            "_links": {
-                                "self": {
-                                    "href":"/Api/Measurement/14"
-                                },
-                                "timezone": {
-                                    "href":"/Api/TimeZone/Central%20Europe%20Standard%20Time"
-                                },
-                                "tags": {"href":"/Api/Tag/12"},
-                                "dataVersions": [ 
-                                    {
-                                        "href":"/Api/MeasurementDataVersion/13"
-                                    }
-                                ],
-                                "annotations": {
-                                    "href":"/Api/Measurement/14/Annotations"
-                                }
-                            }
-                        }
-                    ]
-                }
+                    "_embedded": null
+                    }
+                ],
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "~/Api/Measurements",
+                        "title": null,
+                        "isTemplated": false
+                    }
+                ],
+                "_embedded": null
             }
 
 + Response 401 (application/hal+json)
