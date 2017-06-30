@@ -5,7 +5,7 @@ HOST: https://portal.plantyst.com/api/
 
 Plantyst Portal API is a REST API designed to access data related to customer measurements like basic time series, metrics or annotations.
 
-# Group Measurement
+# Group Measurements
 
 Resources related to measurements in the API.
 
@@ -13,20 +13,28 @@ Resources related to measurements in the API.
 
 ### List Measurements [GET]
 
-Gets list of measurements assigned to the currently signed up user along with
-array of rights the user has to each of the measurements. The `rights` may be one
-of the following (so far being in inclusion, i. e. each subsequent right contains
-the previous):
-* View - view measurement data.
-* Contributor - contribute additional information (ie. annotations) for measurement.
-* Admin - edit everithing in the measurement, include access rigths for other.
-* Owner - same as Admin, but the access rigths can't be revoked.
+Gets the list of measurements for which the current user has the access rights for view or higher.
 
-In response, each of the members of the `_embeded` object contains:
-* `timezone` Array of available timezones. ???
-* `tag` Array of all tags for given measurements. ???
-* `measurementDataVersion` Array of measurement data version. ???
-* `measurement` Array of measurements assigned to the currently signed up user.
+Each measurement object has the following properties:
+* `measurementId` unique identifier of the measurement
+* `title` title (name) of the measurement
+* `quantityType` type of the measurement physical quantity
+* `archived` determines the measurement visibility in Portal
+* `first` date time of the first collected data
+* `rights` array of rights the user has to each of the measurements. The values has the following range (so far being in inclusion, i. e. each subsequent right contains
+the previous):
+    * *View* - right to view measurement data
+    * *Contributor* - right to add or update additional information (like annotations)
+    * *Admin* - right to update measurement data (user access, tags, ...)
+    * *Owner* - same as *Admin*, but the access rigths can't be revoked
+
+Along with the measurements, additional data are sent in the `_embeded` resources as follows:
+* `timezone` array of all distinct timezones assigned to measurements
+* `tag` array of all distinct tags assigned to measurements
+* `measurementDataVersion` array of measurement data versions
+* `measurement` array of all accessible measurements for the current user
+
+
 
 + Parameters
     + currentSubscriptionOnly (boolean, `false`) ... Give measurements for current subscription only ???
