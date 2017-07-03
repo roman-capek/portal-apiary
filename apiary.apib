@@ -266,12 +266,13 @@ The array may contain the following values:
 
 + Request (application/hal+json)
     + Attributes
-        + query (object)
-            + MeasurementId (number, required) - Identifies the ID of the measurement.
-            + From (number, required) - Timestamp, specifies the lower bound of the data query.
-            + To (number, required) - Timestamp, specifies the upper bound of the data query.
-            + View (string, required) - Identifies the measurement view to be used.
-            + Precision (number, required) - Specifies the number of precision.
+        + queries (required, array)
+            + (object)
+                + MeasurementId (number, required) - Identifies the ID of the measurement.
+                + From (number, required) - Timestamp, specifies the lower bound of the data query.
+                + To (number, required) - Timestamp, specifies the upper bound of the data query.
+                + View (string, required) - Identifies the measurement view to be used.
+                + Precision (number, required) - Specifies the number of precision.
     + Body
 
             {
