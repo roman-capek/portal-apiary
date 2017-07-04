@@ -15,19 +15,6 @@ Resources related to measurements in the API.
 
 Gets the list of measurements for which the current user has the access rights for view or higher.
 
-Each measurement object has the following properties:
-* `measurementId` unique identifier of the measurement
-* `title` title (name) of the measurement
-* `quantityType` type of the measurement physical quantity
-* `archived` determines the measurement visibility in Portal
-* `first` date time of the first collected data
-* `rights` array of rights the user has to each of the measurements. The values has the following range (so far being in inclusion, i. e. each subsequent right contains
-the previous):
-    * *View* - right to view measurement data
-    * *Contributor* - right to add or update additional information (like annotations)
-    * *Admin* - right to update measurement data (user access, tags, ...)
-    * *Owner* - same as *Admin*, but the access rigths can't be revoked
-
 Along with the measurements, additional data are sent in the `_embedded` resources as follows:
 * `timezone` array of all distinct timezones assigned to measurements
 * `tag` array of all distinct tags assigned to measurements
@@ -35,7 +22,6 @@ Along with the measurements, additional data are sent in the `_embedded` resourc
 * `measurement` array of all accessible measurements for the current user
 
 + Request
-
     + Headers
 
             Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2Nlc3NLZXkiOiIiLCJpc3MiOiIiLCJhdWQiOiJodHRwczovL215LnBsYW50eXN0LmNvbS8iLCJleHAiOjE0OTAwMDAwMDAsIm5iZiI6MTQ5ODgxODcxOH0.yNf36ZlgfyFpCUwo2v3N0PEDZGcxlPaLaEwx2in796Y
@@ -44,6 +30,20 @@ Along with the measurements, additional data are sent in the `_embedded` resourc
     + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription only are returned.
 
 + Response 200 (application/hal+json)
+    + Attributes
+        + Measurement (array, required)
+            + (object)
+                + `measurementId` (number) unique identifier of the measurement
+                + `title` title (string) of the measurement
+                + `quantityType` (number) type of the measurement physical quantity
+                + `archived` (boolean) determines the measurement visibility in Portal
+                + `first` (string) date time of the first collected data
+                + `rights` (array) array of rights the user has to each of the measurements. The values has the following range (so far being in inclusion, i. e. each subsequent right contains
+                        View - right to view measurement data
+                        Contributor - right to add or update additional information (like annotations)
+                        Admin - right to update measurement data (user access, tags, ...)
+                        Owner - same as Admin, but the access rigths can't be revoked
+
     + Body
 
             {
@@ -125,8 +125,8 @@ Along with the measurements, additional data are sent in the `_embedded` resourc
                 ],
                 "resourceList": [
                 {
-                    "measurementId": 695,
-                    "title": "Stroj 02",
+                    "measurementId": 3,
+                    "title": "Stroj 1",
                     "description": "Access for presentations",
                     "quantityType": "speed",
                     "archived": false,
@@ -169,8 +169,8 @@ Along with the measurements, additional data are sent in the `_embedded` resourc
                 "_embedded": null
                 },
                 {
-                    "measurementId": 696,
-                    "title": "Stroj 33",
+                    "measurementId": 4,
+                    "title": "Stroj 2",
                     "description": "Access for presentations",
                     "quantityType": "speed",
                     "archived": false,
@@ -241,15 +241,7 @@ Resources related to measurements data in the API.
 
 Gets list of Time Series Aggregation for the given measurement.
 
-The request contains `Queries` array. Its members contain:
-* `MeasurementId` (int) - required. Identifies the ID of the measurement.
-* `From` (DateTime) - required. Specifies the lower bound of the data query.
-* `To` (DateTime) - required. Specifies the upper bound of the data query.
-* `View` (string) - required. Identifies the measurement view to be used.
-* `Precision` (int) - Specifies the number of precision.
-
-The `view` available for the given measurement is provided in the `results` 
-of Measurement API endpoint.
+The `view` available for the given measurement is provided in the `results` of Measurement API endpoint.
 
 In the response, each of the members of the `results` array contains objects:
 * `query` - A copy of a query from the *request*, identifying which query the result belongs to.
@@ -266,26 +258,25 @@ The array may contain the following values:
 
 + Request (application/hal+json)
     + Attributes
-        + queries (required, array)
-            + (object)
-                + MeasurementId (number, required) - Identifies the ID of the measurement.
-                + From (number, required) - Timestamp, specifies the lower bound of the data query.
-                + To (number, required) - Timestamp, specifies the upper bound of the data query.
-                + View (string, required) - Identifies the measurement view to be used.
-                + Precision (number, required) - Specifies the number of precision.
+        + Queries (object)
+            + MeasurementId (number, required) - Identifies the ID of the measurement.
+            + From (number, required) - Timestamp, specifies the lower bound of the data query.
+            + To (number, required) - Timestamp, specifies the upper bound of the data query.
+            + View (string, required) - Identifies the measurement view to be used.
+            + Precision (number, required) - Specifies the number of precision.
     + Body
 
             {
                 "Queries": [
                     {
-                        "MeasurementId": 15,
+                        "MeasurementId": 3,
                         "From": "2017-06-01T00:00:00Z",
                         "To": "2017-06-01T00:09:00Z",
                         "View": "Base.MinuteSet",
                         "Precision": "2"
                     },
                     {
-                        "MeasurementId": 16,
+                        "MeasurementId": 4,
                         "From": "2017-06-01T00:00:00Z",
                         "To": "2017-06-01T00:09:00Z",
                         "View": "Base.MinuteSet",
@@ -296,12 +287,13 @@ The array may contain the following values:
 
 + Response 200 (application/hal+json)
     + Attributes
-        + result (object)
-            + view (string, required) - Identifies the measurement view to be used. 
-            + precision (number, required) - Specifies the number of precision.
-            + measurementId (number, required) - Identifies the ID of the measurement.
-            + from (number, required) - Timestamp, specifies the lower bound of the data query.
-            + to (number, required) - Timestamp, specifies the upper bound of the data query.
+        + results (array)
+            + (object)
+                + view (string, required) - Identifies the measurement view to be used. 
+                + precision (number, required) - Specifies the number of precision.
+                + measurementId (number, required) - Identifies the ID of the measurement.
+                + from (number, required) - Timestamp, specifies the lower bound of the data query.
+                + to (number, required) - Timestamp, specifies the upper bound of the data query.
     
     + Body
 
@@ -311,7 +303,7 @@ The array may contain the following values:
                         "query": {
                             "view": "Base.MinuteSet",
                             "precision": "2",
-                            "measurementId": 15,
+                            "measurementId": 3,
                             "from": "2017-05-31T22:00Z",
                             "to": "2017-05-31T22:09Z"
                         },
@@ -325,7 +317,7 @@ The array may contain the following values:
                         "query": {
                             "view": "Base.MinuteSet",
                             "precision": "2",
-                            "measurementId": 16,
+                            "measurementId": 4,
                             "from": "2017-05-31T22:00Z",
                             "to": "2017-05-31T22:09Z"
                         },
@@ -355,32 +347,52 @@ Resources related to metadocuments in the API.
 
 Adds metadocument of given type for the specific measurement.
 
-The request contains `QueriesAAAAA` array. Its members contain:
-* `MeasurementId` (int) - required. Identifies the ID of the measurement.
-* `MetadocumentType` (int) - required. Identifies type of metadocument
-The `MetadocumentType` may contain the following values:
-    * `0` *int* The undefined type.
-    * `1` *int* The annotation.
-    * `2` *int* The job.
-* `From` (DateTime) - required. Specifies the metadocument validity from.
-* `To` (DateTime) - required. Specifies the metadocument validity to.
-* `Title` (string) - required. Title of metadocument.
-* `Setpoint` (int) - The setpoint.
-* `Color` (string) - The color in hex color code.
-
-The response, has following structure:
-* `guid` - The unique identificator of metadocument.
-* `type` - The type of metadocument.
-* `title` - The title.
-* `creatorId` - The unique identificator of metadocument creator.
-* `measurementId` - Identifies the ID of the measurement.
-* `from` - The metadocument validity from.
-* `to` - The metadocument validity to.
-* `color` - The color in hex color code.
-* `setpoint` - The setpoint.
-* `lastModified` - The last modified date.
++ Request
+    + Attributes
+        + Queries (object)
+            + `MeasurementId` (number, required)
+                Identifies the ID of the measurement.
+            + `MetadocumentType` (number, required)
+                Identifies type of metadocument
+                0 The undefined type.
+                1 The annotation.
+                2 The job.
+                3 The downtime.
+            + `From` (string, required)
+                Specifies the metadocument validity from. Date time format is in ISO 8601???.
+            + `To` (string, required)
+                Specifies the metadocument validity to. Date time format is in ISO 8601???.
+            + `Title` (string)
+                Title of metadocument.
+            + `Setpoint` (number)
+                The setpoint.
+            + `Color` (string)
+                The color in hex color code.
 
 + Response 200 (application/hal+json)
+    + Attributes
+        + Result (object)
+            + `guid` (string)
+                The unique identificator of metadocument.
+            + `type` (number)
+                The type of metadocument.
+            + `title` (string)
+                The title.
+            + `creatorId` (number)
+                The unique identificator of metadocument creator.
+            + `measurementId` (number)
+                Identifies the ID of the measurement.
+            + `from` (string)
+                The metadocument validity from. Date time format is in ISO 8601???.
+            + `to` (string)
+                The metadocument validity to. Date time format is in ISO 8601???.
+            + `color` (string)
+                The color in hex color code.
+            + `setpoint` (number)
+                The setpoint.
+            + `lastModified` (string)
+                The last modified date.
+
     + Body
     
             {
@@ -388,7 +400,7 @@ The response, has following structure:
                 "type":2,
                 "title":"Job title",
                 "creatorId":497,
-                "measurementId":669,
+                "measurementId":3,
                 "from":"2017-06-26T05:30:00Z",
                 "to":"2017-06-26T07:30:00Z",
                 "color":"#969614",
@@ -432,22 +444,36 @@ The response, has following structure:
 
 Gets metadocument with specific Guid.
 
-The request contains one member:
-* `guid` (string) - The unique identificator of metadocument.
-
-The response, has following structure:
-* `guid` - The unique identificator of metadocument.
-* `type` - The type of metadocument.
-* `title` - The title.
-* `creatorId` - The unique identificator of metadocument creator.
-* `measurementId` - Identifies the ID of the measurement.
-* `from` - The metadocument validity from.
-* `to` - The metadocument validity to.
-* `color` - The color in hex color code.
-* `setpoint` - The setpoint.
-* `lastModified` - The last modified date.
++ Request
+    + Attributes
+        + Queries (object)
+            + `guid` (string, required)
+                The unique identificator of metadocument.
 
 + Response 200 (application/hal+json)
+    + Attributes
+        + Result (object)
+            + `guid` (string)
+                The unique identificator of metadocument.
+            + `type` (number)
+                The type of metadocument.
+            + `title` (string)
+                The title.
+            + `creatorId` (number)
+                The unique identificator of metadocument creator.
+            + `measurementId` (number)
+                Identifies the ID of the measurement.
+            + `from` (string)
+                The metadocument validity from. Date time format is in ISO 8601???.
+            + `to` (string)
+                The metadocument validity to. Date time format is in ISO 8601???.
+            + `color` (string)
+                The color in hex color code.
+            + `setpoint` (number)
+                The setpoint.
+            + `lastModified` (string)
+                The last modified date. Date time format is in ISO 8601???.
+
     + Body
     
             {
@@ -455,7 +481,7 @@ The response, has following structure:
                 "type":2,
                 "title":"Job title",
                 "creatorId":497,
-                "measurementId":669,
+                "measurementId":3,
                 "from":"2017-06-26T05:30:00Z",
                 "to":"2017-06-26T07:30:00Z",
                 "color":"#969614",
