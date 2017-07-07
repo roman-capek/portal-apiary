@@ -341,7 +341,7 @@ The array may contain the following values:
 
 Resources related to metadocuments in the API.
 
-## Metadocument [/Metadocuments]
+## Add Metadocument [/Metadocuments]
 
 ### Add Metadocument [POST]
 
@@ -349,81 +349,58 @@ Adds metadocument of given type for the specific measurement.
 
 + Request
     + Attributes
-        + Queries (object)
-            + `MeasurementId` (number, required)
-                Identifies the ID of the measurement.
-            + `MetadocumentType` (number, required)
-                Identifies type of metadocument
-                0 The undefined type.
-                1 The annotation.
-                2 The job.
-                3 The downtime.
-            + `From` (string, required)
-                Specifies the metadocument validity from. Date time format is in ISO 8601???.
-            + `To` (string, required)
-                Specifies the metadocument validity to. Date time format is in ISO 8601???.
-            + `Title` (string)
-                Title of metadocument.
-            + `Setpoint` (number)
-                The setpoint.
-            + `Color` (string)
-                The color in hex color code.
+        + `MeasurementId` (number, required)
+            Identifies the ID of the measurement.
+        + `Title` (string)
+            Title of metadocument.
+        + `Description` (string)
+            Description of the current document.
+        + `CustomId` (string)
+            Specifies the customer (user) specific identificator.
+        + `From` (string, required)
+            Specifies the metadocument validity from. Date time format is in ISO 8601???.
+        + `To` (string, required)
+            Specifies the metadocument validity to. Date time format is in ISO 8601???.
+        + `Setpoint` (number)
+            The setpoint for the metadocument.
+        + `MetadocumentType` (number, required)
+            Identifies type of metadocument
+            0 The undefined type.
+            1 The annotation.
+            2 The job.
+            3 The downtime.
+        + `Color` (string)
+            The color in hex color code.
+        + `Operations` (string)
+            Specifies the operations for the curremnt metadocument.
+        + `DowntimeCode` (string)
+            The code for down time.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + Result (object)
-            + `guid` (string)
-                The unique identificator of metadocument.
-            + `type` (number)
-                The type of metadocument.
-            + `title` (string)
-                The title.
-            + `creatorId` (number)
-                The unique identificator of metadocument creator.
-            + `measurementId` (number)
-                Identifies the ID of the measurement.
-            + `from` (string)
-                The metadocument validity from. Date time format is in ISO 8601???.
-            + `to` (string)
-                The metadocument validity to. Date time format is in ISO 8601???.
-            + `color` (string)
-                The color in hex color code.
-            + `setpoint` (number)
-                The setpoint.
-            + `lastModified` (string)
-                The last modified date.
+        + `Guid` (string)
+            Specifies the metadocument command unique identifier.
+        + `Result` (string)
+            The command result.
+        + `ProcessedDate` (string)
+            Specifies the processed date of the command.
+        + `MetadocumentGuid` (string)
+            Identifies the metadocument unique identifier.
+        + `Rel` (string)
+            Relationship attribute of the link.
+        + `Href` (string)
+            Specifies the URL of the link.
 
     + Body
     
             {
                 "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "type":2,
-                "title":"Job title",
-                "creatorId":497,
+                "result":"???",
+                "processeddate":"???",
+                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
                 "measurementId":3,
-                "from":"2017-06-26T05:30:00Z",
-                "to":"2017-06-26T07:30:00Z",
-                "color":"#969614",
-                "setpoint":50.0,
-                "lastModified":"1970-01-01T00:00:00Z",
-                "_links": {
-                    "self": {
-                        "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6"
-                    }
-                },
-                "_embedded": {
-                    "user": [
-                        {
-                            "userId":497,
-                            "name":"Martin Kouďa",
-                            "_links": {
-                                "self": {
-                                    "href":"/Api/User/497"
-                                }
-                            }
-                        }
-                    ]
-                }
+                "rel":"???",
+                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
             }
 
 + Response 401  (application/hal+json)
@@ -440,52 +417,65 @@ Adds metadocument of given type for the specific measurement.
                 "message":"Forbidden."
             }
 
+## Get Metadocument [/Metadocuments/{?guid}]
+
 ### Get Metadocument [GET]
 
 Gets metadocument with specific Guid.
 
-+ Request
-    + Attributes
-        + Queries (object)
-            + `guid` (string, required)
-                The unique identificator of metadocument.
++ Parameters
+    + guid (string, required) 
+        Specifies the unique identifier for the metadocument.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + Result (object)
-            + `guid` (string)
-                The unique identificator of metadocument.
-            + `type` (number)
-                The type of metadocument.
-            + `title` (string)
-                The title.
-            + `creatorId` (number)
-                The unique identificator of metadocument creator.
-            + `measurementId` (number)
-                Identifies the ID of the measurement.
-            + `from` (string)
-                The metadocument validity from. Date time format is in ISO 8601???.
-            + `to` (string)
-                The metadocument validity to. Date time format is in ISO 8601???.
-            + `color` (string)
-                The color in hex color code.
-            + `setpoint` (number)
-                The setpoint.
-            + `lastModified` (string)
-                The last modified date. Date time format is in ISO 8601???.
+        + `MeasurementId` (number, required)
+            Identifies the ID of the measurement.
+        + `Title` (string)
+            Title of metadocument.
+        + `Description` (string)
+            Description of the current document.
+        + `CustomId` (string)
+            Specifies the customer (user) specific identificator.
+        + `From` (string, required)
+            Specifies the metadocument validity from. Date time format is in ISO 8601???.
+        + `To` (string, required)
+            Specifies the metadocument validity to. Date time format is in ISO 8601???.
+        + `Setpoint` (number)
+            The setpoint for the metadocument.
+        + `MetadocumentType` (number, required)
+            Identifies type of metadocument
+            0 The undefined type.
+            1 The annotation.
+            2 The job.
+            3 The downtime.
+        + `Color` (string)
+            The color in hex color code.
+        + `Operations` (string)
+            Specifies the operations for the curremnt metadocument.
+        + `DowntimeCode` (string)
+            The code for down time.
+        + _links (object)
+            + self (object)
+                + href (string, required)
+                    Specifies the URL of the link.
 
     + Body
     
             {
                 "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "type":2,
-                "title":"Job title",
-                "creatorId":497,
                 "measurementId":3,
+                "title":"Downtime title",
+                "description":"Downtime description",
+                "customid":"CustId-1",
                 "from":"2017-06-26T05:30:00Z",
                 "to":"2017-06-26T07:30:00Z",
-                "color":"#969614",
                 "setpoint":50.0,
+                "type":3,
+                "color":"#969614",
+                "operations":"",
+                "downtimecode":"E6",
+                "creatorId":497,
                 "lastModified":"2017-06-26T09:25:15Z",
                 "_links": {
                     "self": {
@@ -494,7 +484,7 @@ Gets metadocument with specific Guid.
                 }
             }
 
-+ Response 401  (application/hal+json)
++ Response 401 (application/hal+json)
     + Body
     
             {
