@@ -31,7 +31,7 @@ Along with the measurements, additional data are sent as the embedded resources 
             Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2Nlc3NLZXkiOiIiLCJpc3MiOiIiLCJhdWQiOiJodHRwczovL215LnBsYW50eXN0LmNvbS8iLCJleHAiOjE0OTAwMDAwMDAsIm5iZiI6MTQ5ODgxODcxOH0.yNf36ZlgfyFpCUwo2v3N0PEDZGcxlPaLaEwx2in796Y
 
 + Parameters
-    + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription only are returned.
+    + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription are returned.
 
 + Response 200 (application/hal+json)
     + Attributes
@@ -42,7 +42,9 @@ Along with the measurements, additional data are sent as the embedded resources 
                 + `quantityType`: (string) - type of the measurement physical quantity
                 + `archived`: (boolean) - determines the measurement visibility in Portal
                 + `first`: (string) - date time of the first collected data
-                + `rights`: (array) - array of rights the user has for the measurement
+                + `rights`: (array) 
+                    + (object)
+                        + assigned user right for the measurement
                        
         + Timezone (array)
             + (object)
