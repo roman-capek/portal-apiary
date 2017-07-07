@@ -7,15 +7,19 @@ Plantyst Portal API is a REST API designed to access data related to customer me
 
 # Group Measurements
 
-Resources related to measurements in the API.
+This section contains endpoints for the resources related to measurements and their basic properties.
 
 ## Measurements Collection [/Measurements/{?currentSubscriptionOnly}]
 
 ### List Measurements [GET]
 
-Gets the list of measurements for which the current user has the access rights for view or higher.
+Gets the list of measurements for which the current user has the access rights for view or higher. The rights used in the Plantyst application are the following:
+* _View_ - right to view measurement data
+* _Contributor_ - right to add or update additional information (like annotations)
+* _Admin_ - right to update measurement data (user access, tags, ...)
+* _Owner_ - same as Admin, but the access rigths can't be revoked
 
-Along with the measurements, additional data are sent in the `_embedded` resources as follows:
+Along with the measurements, additional data are sent as the embedded resources as follows:
 * `timezone` array of all distinct timezones assigned to measurements
 * `tag` array of all distinct tags assigned to measurements
 * `measurementDataVersion` array of measurement data versions
@@ -31,18 +35,20 @@ Along with the measurements, additional data are sent in the `_embedded` resourc
 
 + Response 200 (application/hal+json)
     + Attributes
-        + Measurement (array, required)
+        + Measurement (array)
             + (object)
-                + `measurementId` (number) unique identifier of the measurement
-                + `title` title (string) of the measurement
-                + `quantityType` (number) type of the measurement physical quantity
-                + `archived` (boolean) determines the measurement visibility in Portal
-                + `first` (string) date time of the first collected data
-                + `rights` (array) array of rights the user has to each of the measurements. The values has the following range (so far being in inclusion, i. e. each subsequent right contains
-                        View - right to view measurement data
-                        Contributor - right to add or update additional information (like annotations)
-                        Admin - right to update measurement data (user access, tags, ...)
-                        Owner - same as Admin, but the access rigths can't be revoked
+                + `measurementId`: (number) - unique identifier of the measurement
+                + `title`: (string) - title of the measurement
+                + `quantityType`: (string) - type of the measurement physical quantity
+                + `archived`: (boolean) - determines the measurement visibility in Portal
+                + `first`: (string) - date time of the first collected data
+                + `rights`: (array) - array of rights the user has for the measurement
+                       
+        + Timezone (array)
+            + (object)
+                + `id`: (string) - the time zone identifier
+                + `name`: (string) - the time zone full name
+                + `iana`: (string) - the time zone IANA codeMe
 
     + Body
 
