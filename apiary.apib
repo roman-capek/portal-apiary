@@ -37,20 +37,20 @@ Along with the measurements, additional data are sent as the embedded resources 
     + Attributes
         + Measurement (array)
             + (object)
-                + `measurementId`: (number) - unique identifier of the measurement
-                + `title`: (string) - title of the measurement
-                + `quantityType`: (string) - type of the measurement physical quantity
-                + `archived`: (boolean) - determines the measurement visibility in Portal
-                + `first`: (string) - date time of the first collected data
-                + `rights`: (array) 
+                + `measurementId` (number) - unique identifier of the measurement
+                + `title` (string) - title of the measurement
+                + `quantityType` (string) - type of the measurement physical quantity
+                + `archived` (boolean) - determines the measurement visibility in Portal
+                + `first` (string) - date time of the first collected data
+                + `rights` (array) 
                     + (object)
                         + assigned user right for the measurement
                        
         + Timezone (array)
             + (object)
-                + `id`: (string) - the time zone identifier
-                + `name`: (string) - the time zone full name
-                + `iana`: (string) - the time zone IANA codeMe
+                + `id` (string) - the time zone identifier
+                + `name` (string) - the time zone full name
+                + `iana` (string) - the time zone IANA codeMe
 
     + Body
 
@@ -357,47 +357,30 @@ Adds metadocument of given type for the specific measurement.
 
 + Request
     + Attributes
-        + `MeasurementId` (number, required)
-            Identifies the ID of the measurement.
-        + `Title` (string)
-            Title of metadocument.
-        + `Description` (string)
-            Description of the current document.
-        + `CustomId` (string)
-            Specifies the customer (user) specific identificator.
-        + `From` (string, required)
-            Specifies the metadocument validity from. Date time format is in ISO 8601???.
-        + `To` (string, required)
-            Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `Setpoint` (number)
-            The setpoint for the metadocument.
-        + `MetadocumentType` (number, required)
-            Identifies type of metadocument
+        + `MeasurementId` (number, required) - Identifies the ID of the measurement.
+        + `Title` (string) - Title of metadocument.
+        + `Description` (string) - Description of the current document.
+        + `CustomId` (string) - Specifies the customer (user) specific identificator.
+        + `From` (string, required) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
+        + `To` (string, required) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
+        + `Setpoint` (number) - The setpoint for the metadocument.
+        + `MetadocumentType` (number, required) - Identifies type of metadocument
             0 The undefined type.
             1 The annotation.
             2 The job.
             3 The downtime.
-        + `Color` (string)
-            The color in hex color code.
-        + `Operations` (string)
-            Specifies the operations for the curremnt metadocument.
-        + `DowntimeCode` (string)
-            The code for down time.
+        + `Color` (string) - The color in hex color code.
+        + `Operations` (string) - Specifies the operations for the curremnt metadocument.
+        + `DowntimeCode` (string) - The code for down time.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `Guid` (string)
-            Specifies the metadocument command unique identifier.
-        + `Result` (string)
-            The command result.
-        + `ProcessedDate` (string)
-            Specifies the processed date of the command.
-        + `MetadocumentGuid` (string)
-            Identifies the metadocument unique identifier.
-        + `Rel` (string)
-            Relationship attribute of the link.
-        + `Href` (string)
-            Specifies the URL of the link.
+        + `Guid` (string) - Specifies the metadocument command unique identifier.
+        + `Result` (string) - The command result.
+        + `ProcessedDate` (string) - Specifies the processed date of the command.
+        + `MetadocumentGuid` (string) - Identifies the metadocument unique identifier.
+        + `Rel` (string) - Relationship attribute of the link.
+        + `Href` (string) - Specifies the URL of the link.
 
     + Body
     
@@ -437,36 +420,24 @@ Gets metadocument with specific Guid.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `MeasurementId` (number, required)
-            Identifies the ID of the measurement.
-        + `Title` (string)
-            Title of metadocument.
-        + `Description` (string)
-            Description of the current document.
-        + `CustomId` (string)
-            Specifies the customer (user) specific identificator.
-        + `From` (string, required)
-            Specifies the metadocument validity from. Date time format is in ISO 8601???.
-        + `To` (string, required)
-            Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `Setpoint` (number)
-            The setpoint for the metadocument.
-        + `MetadocumentType` (number, required)
-            Identifies type of metadocument
+        + `MeasurementId` (number, required) - Identifies the ID of the measurement.
+        + `Title` (string) - Title of metadocument.
+        + `Description` (string) - Description of the current document.
+        + `CustomId` (string) - Specifies the customer (user) specific identificator.
+        + `From` (string, required) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
+        + `To` (string, required) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
+        + `Setpoint` (number) - The setpoint for the metadocument.
+        + `MetadocumentType` (number, required) - Identifies type of metadocument
             0 The undefined type.
             1 The annotation.
             2 The job.
             3 The downtime.
-        + `Color` (string)
-            The color in hex color code.
-        + `Operations` (string)
-            Specifies the operations for the curremnt metadocument.
-        + `DowntimeCode` (string)
-            The code for down time.
+        + `Color` (string) - The color in hex color code.
+        + `Operations` (string) - Specifies the operations for the curremnt metadocument.
+        + `DowntimeCode` (string) - The code for down time.
         + _links (object)
             + self (object)
-                + href (string, required)
-                    Specifies the URL of the link.
+                + href (string, required) - Specifies the URL of the link.
 
     + Body
     
