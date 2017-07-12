@@ -415,8 +415,7 @@ Adds metadocument of given type for the specific measurement.
 Gets metadocument with specific Guid.
 
 + Parameters
-    + guid (string, required) 
-        Specifies the unique identifier for the metadocument.
+    + guid (string, required) - Specifies the unique identifier for the metadocument.
 
 + Response 200 (application/hal+json)
     + Attributes
@@ -426,13 +425,13 @@ Gets metadocument with specific Guid.
         + `CustomId` (string) - Specifies the customer (user) specific identificator.
         + `From` (string, required) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
         + `To` (string, required) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `Setpoint` (number) - The setpoint for the metadocument.
         + `MetadocumentType` (number, required) - Identifies type of metadocument
             0 The undefined type.
             1 The annotation.
             2 The job.
             3 The downtime.
         + `Color` (string) - The color in hex color code.
+        + `Setpoint` (number) - The setpoint for the metadocument.
         + `Operations` (string) - Specifies the operations for the curremnt metadocument.
         + `DowntimeCode` (string) - The code for down time.
         + _links (object)
@@ -468,4 +467,61 @@ Gets metadocument with specific Guid.
     
             {
                 "message":"Authorization has been denied for this request."
+            }
+
+## Patch Metadocument [/Metadocuments/{?waitTimeout}]
+
+### Patch Metadocument [PATCH]
+
+Updates the document with specific Guid and given parameters.
+
++ Parameters
+    + waitTimeout (number, required) - Specifies the timeout on which response is either...??? .
+
++ Request
+    + Attributes
+        + `Guid` (string, required) - Specifies the unique identifier for the metadocument.
+        + `Title` (string) - Title of metadocument.
+        + `Description` - Description of the current document.
+        + `CustomId` - Specifies the customer (user) specific identificator.
+        + `CreatorId` - The unique identifier creator of metadocument.
+        + `From` - Specifies the metadocument validity from. Date time format is in ISO 8601???.
+        + `To` - Specifies the metadocument validity to. Date time format is in ISO 8601???.
+        + `Color` - The color in hex color code.
+        + `Setpoint` - The setpoint for the metadocument.
+        + `Operations` - Specifies the operations for the curremnt metadocument.
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `Guid` (string) - Specifies the metadocument command unique identifier.
+        + `Result` (string) - The command result.
+        + `ProcessedDate` (string) - Specifies the processed date of the command.
+        + `MetadocumentGuid` (string) - Identifies the metadocument unique identifier.
+        + `Rel` (string) - Relationship attribute of the link.
+        + `Href` (string) - Specifies the URL of the link.
+
+    + Body
+    
+            {
+                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
+                "result":"???",
+                "processeddate":"???",
+                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
+                "measurementId":3,
+                "rel":"???",
+                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
+            }
+
++ Response 401  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Forbidden."
             }
