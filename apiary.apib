@@ -274,11 +274,11 @@ The array may contain the following values:
 + Request (application/hal+json)
     + Attributes
         + Queries (object)
-            + MeasurementId (number, required) - Identifies the ID of the measurement.
-            + From (number, required) - Timestamp, specifies the lower bound of the data query.
-            + To (number, required) - Timestamp, specifies the upper bound of the data query.
-            + View (string, required) - Identifies the measurement view to be used.
-            + Precision (number, required) - Specifies the number of precision.
+            + `MeasurementId` (number, required) - Identifies the ID of the measurement.
+            + `From` (number, required) - Timestamp, specifies the lower bound of the data query.
+            + `To` (number, required) - Timestamp, specifies the upper bound of the data query.
+            + `View` (string, required) - Identifies the measurement view to be used.
+            + `Precision` (number, required) - Specifies the number of precision.
     + Body
 
             {
@@ -304,11 +304,11 @@ The array may contain the following values:
     + Attributes
         + results (array)
             + (object)
-                + view (string, required) - Identifies the measurement view to be used. 
-                + precision (number, required) - Specifies the number of precision.
-                + measurementId (number, required) - Identifies the ID of the measurement.
-                + from (number, required) - Timestamp, specifies the lower bound of the data query.
-                + to (number, required) - Timestamp, specifies the upper bound of the data query.
+                + `view` (string, required) - Identifies the measurement view to be used. 
+                + `precision` (number, required) - Specifies the number of precision.
+                + `measurementId` (number, required) - Identifies the ID of the measurement.
+                + `from` (number, required) - Timestamp, specifies the lower bound of the data query.
+                + `to` (number, required) - Timestamp, specifies the upper bound of the data query.
     
     + Body
 
@@ -382,10 +382,11 @@ Adds metadocument of given type for the specific measurement.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `Guid` (string) - Specifies the metadocument command unique identifier.
-        + `Result` (string) - The command result.
-        + `ProcessedDate` (string) - Specifies the processed date of the command.
-        + `MetadocumentGuid` (string) - Identifies the metadocument unique identifier.
+        + `guid` (string) - Specifies the metadocument command unique identifier.
+        + `result` (string) - The command result.
+        + `processeddate` (string) - Specifies the processed date of the command.
+        + `metadocumentguid` (string) - Identifies the metadocument unique identifier.
+        + `measurementId` (string) - Identifies the ID of the measurement.
         + `Rel` (string) - Relationship attribute of the link.
         + `Href` (string) - Specifies the URL of the link.
 
@@ -432,7 +433,7 @@ Gets metadocument with specific Guid.
         + `customId` (string) - Specifies the customer (user) specific identificator.
         + `from` (string, required) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
         + `to` (string, required) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `type` (number, required) - Identifies type of metadocument
+        + `type` (number, required) - Identifies type of metadocument.
             0 The undefined type.
             1 The annotation.
             2 The job.
@@ -485,14 +486,153 @@ Gets metadocument with specific Guid.
                 "message":"Not Found."
             }
 
-## Patch Metadocument [/Metadocuments/{?waitTimeout}]
+## Get Metadocuments [/MetadocumentsQuery]
+
+### Get Metadocuments [POST]
+
+Gets the metadocuments for a given measurement and time range.
+
++ Request (application/hal+json)
+    + Attributes
+        + Queries (object)
+            + `MeasurementId` (number, required) - Identifies the ID of the measurement.
+            + `From` (string, required) - Timestamp, specifies the lower bound of the data query. Date time format is in ISO 8601???.
+            + `To` (string, required) - Timestamp, specifies the upper bound of the data query. Date time format is in ISO 8601???.
+    + Body
+
+            {
+                "Queries": [
+                    {
+                        "MeasurementId": 3,
+                        "From": "2017-05-31T22:00:00Z",
+                        "To": "2017-06-01T19:59:59Z"
+                    }
+                ]
+            }
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `responseContinuation` (string) - ???.
+        + `dateTime` (string) - Date time of query. Date time format is in ISO 8601???.
+        + `user` (object)
+            + `userId` (number) - The unique identifier of user.
+            + `name` (string) - The name of user.
+        + `guid` (string) - Specifies the metadocument command unique identifier.
+        + `type` (number, required) - Identifies type of metadocument.
+            0 The undefined type.
+            1 The annotation.
+            2 The job.
+            3 The downtime.
+        + `creatorId` (number) - The unique identifier creator of metadocument.
+        + `measurementId` (number) - Identifies the ID of the measurement.
+        + `from` (string) - Timestamp, specifies the lower bound of the data query. Date time format is in ISO 8601???.
+        + `to` (string, required) - Timestamp, specifies the upper bound of the data query. Date time format is in ISO 8601???.
+        + `color` (string) - The color in hex color code.
+        + `lastModified` (string) - The last modified date time. Date time format is in ISO 8601???.
+        + `comment` (object)
+            + `id` (number) - The identifier of comment.
+            + `text` (string) - Comment text.
+            + `modificationTime` (string) - Time when comment was modified. Date time format is in ISO 8601???.
+    + Body
+    
+            {
+                "responseContinuation":"",
+                "dateTime":"2017-07-13T07:03:03.211009Z",
+                "_links": {
+                    "self": {
+                        "href":"/Api/MetadocumentsQuery/"
+                    },
+                "_embedded": {
+                    "user": [
+                        {
+                            "userId":497,
+                            "name":"Martin Kouďa",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/User/497"
+                                }
+                            }
+                        }
+                    ],
+                    "metadocument": [
+                        {
+                            "guid":"13f6a3b3-0416-49e9-81ed-fab139518c0d",
+                            "type":1,
+                            "creatorId":497,
+                            "measurementId":3,
+                            "from":"2017-06-01T10:18:00Z",
+                            "to":"2017-06-01T10:18:00Z",
+                            "color":"",
+                            "lastModified":"2017-07-04T07:48:34Z",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/Metadocuments/13f6a3b3-0416-49e9-81ed-fab139518c0d"
+                                }
+                            },
+                            "_embedded": {
+                                "comment": [
+                                    {
+                                        "id":0,
+                                        "text":"Ahoj...",
+                                        "modificationTime":"2017-07-03T12:00:56Z",
+                                        "_links": {
+                                            "self": {
+                                                "href":"/Api/Metadocuments/13f6a3b3-0416-49e9-81ed-fab139518c0d/Comments/0/"
+                                            },
+                                            "user": {
+                                                "href":"/Api/User/497"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id":1,
+                                        "text":"Nazdar...",
+                                        "modificationTime":"2017-07-04T07:48:41Z",
+                                        "_links": {
+                                            "self": {
+                                                    "href":"/Api/Metadocuments/13f6a3b3-0416-49e9-81ed-fab139518c0d/Comments/1/"
+                                                },
+                                            "user": {
+                                                "href":"/Api/User/497"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+
++ Response 401  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+    
+            {
+                "message":"Not Found."
+            }
+
+## Patch or Delete Metadocument [/Metadocuments/{?waitTimeout}]
 
 ### Patch Metadocument [PATCH]
 
-Updates the document with specific Guid and given parameters.
+Updates the metadocument with specific Guid and given parameters.
 
 + Parameters
-    + waitTimeout (number, required) - Specifies the timeout on which response is either...??? .
+    + waitTimeout (number, required) - Specifies the timeout on which response is either...???.
 
 + Request
     + Attributes
@@ -570,7 +710,7 @@ Updates the document with specific Guid and given parameters.
 
 ### Delete Metadocument [DELETE]
 
-Deletes the document with specific Guid.
+Deletes the metadocument with specific Guid.
 
 + Parameters
     + waitTimeout (number, required) - Specifies the timeout on which response is either...??? .
