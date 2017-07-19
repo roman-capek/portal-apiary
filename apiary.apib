@@ -25,32 +25,89 @@ Along with the measurements, additional data are sent as the embedded resources 
 * `measurementDataVersion` array of measurement data versions
 * `measurement` array of all accessible measurements for the current user
 
++ Parameters
+    + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription are returned.
+
 + Request
     + Headers
 
             Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2Nlc3NLZXkiOiIiLCJpc3MiOiIiLCJhdWQiOiJodHRwczovL215LnBsYW50eXN0LmNvbS8iLCJleHAiOjE0OTAwMDAwMDAsIm5iZiI6MTQ5ODgxODcxOH0.yNf36ZlgfyFpCUwo2v3N0PEDZGcxlPaLaEwx2in796Y
 
-+ Parameters
-    + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription are returned.
-
 + Response 200 (application/hal+json)
     + Attributes
-        + Measurement (array)
+        + `timeZones` (array)
             + (object)
-                + `measurementId` (number) - unique identifier of the measurement
-                + `title` (string) - title of the measurement
-                + `quantityType` (string) - type of the measurement physical quantity
-                + `archived` (boolean) - determines the measurement visibility in Portal
-                + `first` (string) - date time of the first collected data
-                + `rights` (array)
+                + `id` (string) - The time zone identifier.
+                + `name` (string) - The time zone full name.
+                + `iana` (string) - The time zone IANA codeMe.
+                + `_links` (array)
                     + (object)
-                        + assigned user right for the measurement
-
-        + Timezone (array)
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+            + `_embedded` (string) - ???
+        + `tags` (array) - Array of tags assigned to the measurement.
             + (object)
-                + `id` (string) - the time zone identifier
-                + `name` (string) - the time zone full name
-                + `iana` (string) - the time zone IANA codeMe
+                + `id` (number) - The tag identifier.
+                + `title` (string) - The tag title.
+                + `color` (string) - The tag color represented hexadecimal color values.
+                + `_links` (array)
+                    + (object)
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+                + `_embedded` (string) - ???
+        + `dataVersions` (array) - Array with version of data???
+            + (object)
+                + `id` (number) - The data version identifier.
+                + `title` (string) - The data version tile.
+                + `lastModified` (string) - The last modification???
+                + `_links` (array)
+                    + (object)
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+                + `_embedded` (string) - ???
+        + `resourceList` (array) - The array of resource list.
+            + (object)
+                + `measurementId` (string) - The measurement identifier.
+                + `title` (string) - The measurement title.
+                + `description` (string) - The measurement description.
+                + `quantityType` (string) - The type of quantity.
+                + `archived` (boolean) - Determines if measurement is archived???
+                + `first` (string) - ???
+                + `rights` (array) - The array of rights.
+                    + `Admin` (string) - ???
+                + `_links` (array)
+                    + (object) - Self.
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+                    + (object) - Timezone.
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+                    + (object) - Tags.
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+                    + (object) - Data versions.
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+                    + (object) - Anotations.
+                        + `rel` (string) - The relation ???
+                        + `href` (string) - Specifies the URL of the link.
+                        + `title` (string) - The title ???
+                        + `isTemplated` (boolean) - Defines if is templated ???
+            + `_embedded` (string) - ???
 
     + Body
 
@@ -149,30 +206,30 @@ Along with the measurements, additional data are sent as the embedded resources 
                             "title": null,
                             "isTemplated": false
                         },
-                    {
-                        "rel": "timezone",
-                        "href": "~/Api/TimeZone/Central%20Europe%20Standard%20Time",
-                        "title": null,
-                        "isTemplated": false
-                    },
-                    {
-                        "rel": "tags",
-                        "href": "~/Api/Tag/82",
-                        "title": null,
-                        "isTemplated": false
-                    },
-                    {
-                        "rel": "dataVersions",
-                        "href": "~/Api/MeasurementDataVersion/414",
-                        "title": null,
-                        "isTemplated": false
-                    },
-                    {
-                        "rel": "annotations",
-                        "href": "~/Api/Measurement/695/Annotations",
-                        "title": null,
-                        "isTemplated": false
-                    }
+                        {
+                            "rel": "timezone",
+                            "href": "~/Api/TimeZone/Central%20Europe%20Standard%20Time",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "tags",
+                            "href": "~/Api/Tag/82",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "dataVersions",
+                            "href": "~/Api/MeasurementDataVersion/414",
+                            "title": null,
+                            "isTemplated": false
+                        },
+                        {
+                            "rel": "annotations",
+                            "href": "~/Api/Measurement/695/Annotations",
+                            "title": null,
+                            "isTemplated": false
+                        }
                 ],
                 "_embedded": null
                 },
@@ -239,6 +296,13 @@ Along with the measurements, additional data are sent as the embedded resources 
                 "message":"Authorization has been denied for this request."
             }
 
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
 + Response 404  (application/hal+json)
     + Body
 
@@ -302,13 +366,17 @@ The array may contain the following values:
 
 + Response 200 (application/hal+json)
     + Attributes
-        + results (array)
+        + `results` (array)
             + (object)
-                + `view` (string, required) - Identifies the measurement view to be used.
-                + `precision` (number, required) - Specifies the number of precision.
-                + `measurementId` (number, required) - Identifies the ID of the measurement.
-                + `from` (number, required) - Timestamp, specifies the lower bound of the data query.
-                + `to` (number, required) - Timestamp, specifies the upper bound of the data query.
+                + `query` (object)
+                    + `view` (string, required) - Identifies the measurement view to be used.
+                    + `precision` (number, required) - Specifies the number of precision.
+                    + `measurementId` (number, required) - Identifies the ID of the measurement.
+                    + `from` (number, required) - Timestamp, specifies the lower bound of the data query.
+                    + `to` (number, required) - Timestamp, specifies the upper bound of the data query.
+                + `outputFormat` (array) - Array of output formats.
+                + `data` (array) - Array of data series.
+                + `first` (string) - Date time of first ???. Date time format is in ISO 8601???.
 
     + Body
 
@@ -352,18 +420,29 @@ The array may contain the following values:
                 "message":"Authorization has been denied for this request."
             }
 
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
+
 # Group Metadocuments
 
 Resources related to metadocuments in the API.
 
-## Add, Patch or Delete Metadocument [/Metadocuments/{?waitTimeout}]
+## Add or Patch Metadocument [/Metadocuments/]
 
 ### Add Metadocument [POST]
 
 Adds metadocument of given type for the specific measurement.
-
-+ Parameters
-    + waitTimeout (number, required) - Specifies the timeout on which response is either...???.
 
 + Request
     + Attributes
@@ -405,7 +484,7 @@ Adds metadocument of given type for the specific measurement.
                 "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
             }
 
-+ Response 401  (application/hal+json)
++ Response 401 (application/hal+json)
     + Body
 
             {
@@ -419,12 +498,16 @@ Adds metadocument of given type for the specific measurement.
                 "message":"Forbidden."
             }
 
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
+
 ### Patch Metadocument [PATCH]
 
 Updates the metadocument with specific Guid and given parameters.
-
-+ Parameters
-    + waitTimeout (number, required) - Specifies the timeout on which response is either...???.
 
 + Request
     + Attributes
@@ -441,42 +524,24 @@ Updates the metadocument with specific Guid and given parameters.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + guid (string) - Specifies the unique identifier for the metadocument.
-        + `type` (number, required) - Identifies type of metadocument
-            0 The undefined type.
-            1 The annotation.
-            2 The job.
-            3 The downtime.
-        + `title` (string) - Title of metadocument.
-        + `creatorId`(number) - The unique identifier creator of metadocument.
-        + `measurementId` (number) - Identifies the ID of the measurement.
-        + `from` (string) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
-        + `to` (string) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `color` (string) - The color in hex color code.
-        + `setpoint` (number) - The setpoint for the metadocument.
-        + `lastModified` (string) - The last modified date time. Date time format is in ISO 8601???.
-        + _links (object)
-            + self (object)
-                + href (string, required) - Specifies the URL of the link.
+        + `guid` (string) - Specifies the metadocument command unique identifier.
+        + `result` (string) - The command result.
+        + `processeddate` (string) - Specifies the processed date of the command.
+        + `metadocumentguid` (string) - Identifies the metadocument unique identifier.
+        + `measurementId` (string) - Identifies the ID of the measurement.
+        + `Rel` (string) - Relationship attribute of the link.
+        + `Href` (string) - Specifies the URL of the link.
 
     + Body
 
             {
                 "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "type":3,
-                "title":"Downtime title",
-                "creatorId":497,
+                "result":"???",
+                "processeddate":"???",
+                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
                 "measurementId":3,
-                "from":"2017-06-26T05:30:00Z",
-                "to":"2017-06-26T07:30:00Z",
-                "color":"#969614",
-                "setpoint":50.0,
-                "lastModified":"2017-06-26T09:25:15Z",
-                "_links": {
-                    "self": {
-                        "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6"
-                    }
-                }
+                "rel":"???",
+                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
             }
 
 + Response 401  (application/hal+json)
@@ -499,18 +564,36 @@ Updates the metadocument with specific Guid and given parameters.
             {
                 "message":"Not Found."
             }
+
+## Get or Delete Metadocument [/Metadocuments/{?guid}]
 
 ### Delete Metadocument [DELETE]
 
 Deletes the metadocument with specific Guid.
 
 + Parameters
-    + waitTimeout (number, required) - Specifies the timeout on which response is either...??? .
+    + guid (string, required) - Specifies the unique identifier for the metadocument.
 
 + Response 200 (application/hal+json)
+    + Attributes
+        + `guid` (string) - Specifies the metadocument command unique identifier.
+        + `result` (string) - The command result.
+        + `processeddate` (string) - Specifies the processed date of the command.
+        + `metadocumentguid` (string) - Identifies the metadocument unique identifier.
+        + `measurementId` (string) - Identifies the ID of the measurement.
+        + `Rel` (string) - Relationship attribute of the link.
+        + `Href` (string) - Specifies the URL of the link.
+
     + Body
 
             {
+                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
+                "result":"???",
+                "processeddate":"???",
+                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
+                "measurementId":3,
+                "rel":"???",
+                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
             }
 
 + Response 401  (application/hal+json)
@@ -533,8 +616,6 @@ Deletes the metadocument with specific Guid.
             {
                 "message":"Not Found."
             }
-
-## Get Metadocument [/Metadocuments/{?guid}]
 
 ### Get Metadocument [GET]
 
@@ -562,9 +643,9 @@ Gets metadocument with specific Guid.
         + `downtimeCode` (string) - The code for down time.
         + `creatorId` (number) - The unique identifier creator of metadocument.
         + `lastModified` (string) - The last modified date time. Date time format is in ISO 8601???.
-        + _links (object)
-            + self (object)
-                + href (string, required) - Specifies the URL of the link.
+        + `_links` (object)
+            + `self` (object)
+                + `href` (string, required) - Specifies the URL of the link.
 
     + Body
 
@@ -595,6 +676,13 @@ Gets metadocument with specific Guid.
 
             {
                 "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
             }
 
 + Response 404  (application/hal+json)
@@ -762,26 +850,79 @@ Gets the metadocuments for a given measurement and time range.
             {
                 "message":"Not Found."
             }
+            
+## Get Metadocument Command Result [/MetadocumentCommandResults/{guid}]
+
+### Get Metadocument Command Result [GET]
+
+Gets the metadocument command result for given metadocument.
+
++ Parameters
+    + guid (string, required) - Specifies the unique identifier for the metadocument command result.
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `Guid` (string) - Specifies the unique identifier for the metadocument command result.
+        + `Result` (string) - Identifies the command result.
+        + `ProcessedDate` (string) - Processed date time of the command. Date time format is in ISO 8601???.
+        + `MetadocumentGuid` () - Specifies the unique identifier for the metadocument.
+        + `rel` (string) - The relation ???
+        + `href` (string) - Specifies the URL of the link.
+
+    + Body
+
+            {
+                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
+                "result":???,
+                "processedDate":"2017-06-26T05:30:00Z",
+                "metadocumentGuid":"2b8748ba-8830-4350-b68b-2599d53f2701",
+                "_links": {
+                    "self": {
+                        "href":"/Api/MetadocumentCommandResults/27a858a0-c244-4640-83f8-513dbc70c2e6"
+                    }
+                }
+            }
+
++ Response 401 (application/hal+json)
+    + Body
+
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
 
 # Group Metadocuments Comment
 
 Resources related to metadocument comment in the API.
 
-## Add Metadocument Comment [/Metadocuments/{guid}/Comments/{?waitTimeout}]
+## Add or Patch Metadocument Comment [/Metadocuments/{guid}/Comments]
 
 ### Add Metadocument Comment [POST]
 
 Adds comment to the specific metadocument.
 
 + Parameters
-    + waitTimeout (number, required) - Specifies the timeout on which response is either...???.
+    + guid (string, required) - Specifies the unique identifier for the metadocument.
 
 + Request
     + Attributes
         + Queries (object)
             + `Id` (number, required) - The comment identifier???.
             + `Text` (string) - Text of the comment.
-            + `Time` (string) - Commenting time???. Date time format is in ISO 8601???.
+            + `Time` (string) - Modification time of metadocument comment. Date time format is in ISO 8601???.
             + `UserId` (string) - Specifies the customer (user) specific identificator.
 
     + Body
@@ -799,53 +940,15 @@ Adds comment to the specific metadocument.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `id` (number) - The comment identifier???.
-        + `text` (string) - Text of the comment.
-        + `modificationTime` (string) - Commenting time???. Date time format is in ISO 8601???.
-        + _links (object)
-            + self (object)
-                + href (string, required) - Specifies the URL of the link.
-                + user (object)
-                    + href (string, required) - Specifies the URL of the link.
-        + `_embedded` (object)
-            + `user` (array)
-                + (object)
-                    + `userId` (number) - The unique identifier of user.
-                    + `name` (string) - The name of user.
-                    + _links (object)
-                        + self (object)
-                            + href (string, required) - Specifies the URL of the link.
+        + `location` (string) - The location of ???.
 
     + Body
 
             {
-                "id":0,
-                "text":"Comment text",
-                "modificationTime":"2017-06-01T00:09:00Z",
-                "_links": {
-                    "self": {
-                        "href":"/Api/Metadocuments/2b8748ba-8830-4350-b68b-2599d53f2701/Comments/0/"},
-                        "user": {
-                            "href":"/Api/User/497"
-                        }
-                    }
-                },
-                "_embedded": {
-                    "user": [
-                        {
-                            "userId":497,
-                            "name":"Martin Kouďa",
-                            "_links": {
-                                "self": {
-                                    "href":"/Api/User/497"
-                                }
-                            }
-                        }
-                    ]
-                }
+              "location":"Api/MetadocumentCommandResults/deefa769-b7c4-4bb2-901d-89938caded5f"
             }
 
-+ Response 401  (application/hal+json)
++ Response 401 (application/hal+json)
     + Body
 
             {
@@ -857,4 +960,103 @@ Adds comment to the specific metadocument.
 
             {
                 "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
+
+### Patch Metadocument Comment [PATCH]
+
+Updates comment for the specific metadocument.
+
++ Parameters
+    + guid (string, required) - Specifies the unique identifier for the metadocument.
+
++ Request
+    + Attributes
+        + Queries (object)
+            + `Id` (number, required) - The comment identifier???.
+            + `Text` (string) - Text of the comment.
+            + `Time` (string) - Modification time of metadocument comment. Date time format is in ISO 8601???.
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `location` (string) - The location of ???.
+
+    + Body
+
+            {
+              "location":"Api/MetadocumentCommandResults/deefa769-b7c4-4bb2-901d-89938caded5f"
+            }
+
++ Response 401 (application/hal+json)
+    + Body
+
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
+
+## Delete Metadocument Comment [/Metadocuments/{guid}/Comments/{id}]
+
+### Delete Metadocument Comment [DELETE]
+
+Deletes comment for the specific metadocument.
+
++ Parameters
+    + guid (string, required) - Specifies the unique identifier for the metadocument.
+
++ Request
+    + Attributes
+        + Queries (object)
+            + `Id` (number, required) - The comment identifier???.
+            + `Text` (string) - Text of the comment.
+            + `Time` (string) - Modification time of metadocument comment. Date time format is in ISO 8601???.
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `location` (string) - The location of ???.
+
+    + Body
+
+            {
+              "location":"Api/MetadocumentCommandResults/deefa769-b7c4-4bb2-901d-89938caded5f"
+            }
+
++ Response 401 (application/hal+json)
+    + Body
+
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
             }
