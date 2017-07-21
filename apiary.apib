@@ -611,33 +611,33 @@ Deletes the metadocument with specific Guid.
 
 ### Get Metadocument [GET]
 
-Gets metadocument with specific Guid.
+Gets metadocument with specific Guid with embedded comments.
 
 + Parameters
-    + guid (string, required) - Specifies the unique identifier for the metadocument.
+    + guid (string, required) - specifies the unique identifier for the metadocumenta
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `measurementId` (number, required) - Identifies the ID of the measurement.
-        + `title` (string) - Title of metadocument.
-        + `description` (string) - Description of the current document.
-        + `customId` (string) - Specifies the customer (user) specific identificator.
-        + `from` (string, required) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
-        + `to` (string, required) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `type` (number, required) - Identifies type of metadocument.
-            0 The undefined type.
-            1 The annotation.
-            2 The job.
-            3 The downtime.
-        + `color` (string) - The color in hex color code.
-        + `setpoint` (number) - The setpoint for the metadocument.
-        + `operations` (string) - Specifies the operations for the curremnt metadocument.
-        + `downtimeCode` (string) - The code for down time.
-        + `creatorId` (number) - The unique identifier creator of metadocument.
-        + `lastModified` (string) - The last modified date time. Date time format is in ISO 8601???.
-        + `_links` (object)
-            + `self` (object)
-                + `href` (string, required) - Specifies the URL of the link.
+        + `measurementId` (number)
+        + `title` (string)
+        + `description` (string)
+        + `customId` (string)
+        + `from` (string)
+        + `to` (string)
+        + `type` (number)
+        + `color` (string)
+        + `setpoint` (number)
+        + `operations` (array)
+            + (string)
+        + `downtimeCode` (string)
+        + `creatorId` (number)
+        + `lastModified` (string)
+        + `_embedded` (object)
+            + `comment` (array)
+                + (object)
+                    + `id` (number)
+                    + `text` (string)
+                    + `modificationTime` (string)
 
     + Body
 
@@ -652,13 +652,27 @@ Gets metadocument with specific Guid.
                 "setpoint":50.0,
                 "type":3,
                 "color":"#969614",
-                "operations":"",
                 "downtimecode":"E6",
                 "creatorId":497,
                 "lastModified":"2017-06-26T09:25:15Z",
                 "_links": {
                     "self": {
                         "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6"
+                    }
+                },
+                "_embedded": {
+                "comment": [
+                    {
+                        "id":1,
+                        "text":"Comment text",
+                        "modificationTime":"2017-07-19T11:52:12Z",
+                        "_links": {
+                            "self": {
+                                "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6/Comments/1/"
+                            },
+                            "user": {
+                                "href":"/Api/User/101"
+                            }
                     }
                 }
             }
