@@ -429,6 +429,10 @@ A metadocument comment is a self-contained object with the following properties:
 * `Text` - comment text (mandatory)
 * `ModificationTime` - UTC date time of the last modification (mandatory)
 
+__Command-based architecture__
+
+All operations over metadocuments that change their state are command-based, therefore the response for such actions is formed 
+
 
 ## Add or Patch Metadocument [/Metadocuments/]
 
@@ -819,11 +823,11 @@ Gets the metadocuments for a given measurement and time range.
 Gets the metadocument command result.
 
 + Parameters
-    + guid (string, required, `f57513ba-c004-45bc-b28c-610eb00de7c`) ... unique identifier for the metadocument command result
+    + guid (string, required, `f57513ba-c004-45bc-b28c-610eb00de7c`) ... unique identifier for the metadocument command
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `guid` (string) - unique identifier for the metadocument command result
+        + `guid` (string) - unique identifier for the metadocument command
         + `result` (string) - text representation of the result
         + `processedDate` (string) - processed date time of the command in ISO 8601 format
         + `metadocumentGuid` (string) - specifies identifier for the related metadocument
