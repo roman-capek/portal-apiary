@@ -5,6 +5,27 @@ HOST: https://portal.plantyst.com/api/
 
 Plantyst Portal API is a REST API designed to access data related to customer measurements like basic time series, metrics or annotations.
 
+# Group Authorization
+
+The authorization for the API calls uses token-based principle _JWT_ (_JSON Web Token_). The token has three main parts:
+* _Header_ - _JSON_ containing basic information about the token - type and hash algorithm
+    * Example: `{ "alg": "HS256", "typ": "JWT"}`
+* _Payload_ - _JSON_ containing information about the user in the form of _claims_:
+    * `iss` - issuer - the application identifier (required)
+    * `accessKey` - user access key (required)
+    * `aud` - audience - the target authorization authority (required)
+    * `nbf` - not before - timestamp of the token validity start date (optional)
+    * `exp` - expiration - timestamp of the token validity end date (optional)
+* _Signature_ - defines the secret user key for the encryption
+
+_Header_ and _Payload_ are encoded using the _base64url_ encoding, all three parts are contactenated by a dot character (.) and the whole token is signed using _HMAC-SHA256_ algorithm: `tokenValue=HMAC-SHA256(secret, encodeBase64Url(Header) + '.' + encodeBase64Url(Payload))`
+
+Values of `iss`, `accessKey` and `secret` are established while the token is being initiated in the Plantyst application. Value of `aud` is always equal to `"https://my.plantyst.com"`.
+
+A token is always related to a specific user and it serves to access the resources with his access rights.
+
+The resulting token has to be included in the _Headers_ part of the request with the header name set to `Authorization` and value equal to `Token tokenValue`.
+
 # Group Measurements
 
 This section contains endpoints for the resources related to measurements and their basic properties. A measurement is a key data object to which the most of other API data has a relation. A measurement object has the following properties:
@@ -36,11 +57,6 @@ Along with the measurements, additional data are sent as the embedded resources 
 
 + Parameters
     + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription are returned.
-
-+ Request
-    + Headers
-
-            Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBY2Nlc3NLZXkiOiIiLCJpc3MiOiIiLCJhdWQiOiJodHRwczovL215LnBsYW50eXN0LmNvbS8iLCJleHAiOjE0OTAwMDAwMDAsIm5iZiI6MTQ5ODgxODcxOH0.yNf36ZlgfyFpCUwo2v3N0PEDZGcxlPaLaEwx2in796Y
 
 + Response 200 (application/hal+json)
     + Attributes
