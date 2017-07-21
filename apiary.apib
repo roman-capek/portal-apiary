@@ -439,41 +439,25 @@ Adds metadocument of given type for the specific measurement.
 + Request
     + Attributes
         + `MeasurementId` (number, required)
+        + `MetadocumentType` (number, required)
+        + `From` (string, required)
+        + `To` (string)
         + `Title` (string)
         + `Description` (string)
         + `CustomId` (string)
-        + `From` (string, required)
-        + `To` (string, required)
         + `Setpoint` (number)
-        + `MetadocumentType` (number, required)
-            0 The undefined type.
-            1 The annotation.
-            2 The job.
-            3 The downtime.
         + `Color` (string)
-        + `Operations` (string)
+        + `Operations` (array)
         + `DowntimeCode` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `guid` (string) - Specifies the metadocument command unique identifier.
-        + `result` (string) - The command result.
-        + `processeddate` (string) - Specifies the processed date of the command.
-        + `metadocumentguid` (string) - Identifies the metadocument unique identifier.
-        + `measurementId` (string) - Identifies the ID of the measurement.
-        + `Rel` (string) - Relationship attribute of the link.
-        + `Href` (string) - Specifies the URL of the link.
+        + `location` (string) - specifies the relative url with the result of the requested operation
 
     + Body
 
             {
-                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "result":"???",
-                "processeddate":"???",
-                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
-                "measurementId":3,
-                "rel":"???",
-                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
+                location": "Api/MetadocumentCommandResults/b2ec82f2-1438-47cd-a982-6b2e3b0476c7"
             }
 
 + Response 401 (application/hal+json)
@@ -488,13 +472,6 @@ Adds metadocument of given type for the specific measurement.
 
             {
                 "message":"Forbidden."
-            }
-
-+ Response 404  (application/hal+json)
-    + Body
-
-            {
-                "message":"Not Found."
             }
 
 ### Patch Metadocument [PATCH]
@@ -516,24 +493,12 @@ Updates the metadocument with specific Guid and given parameters.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `guid` (string) - Specifies the metadocument command unique identifier.
-        + `result` (string) - The command result.
-        + `processeddate` (string) - Specifies the processed date of the command.
-        + `metadocumentguid` (string) - Identifies the metadocument unique identifier.
-        + `measurementId` (string) - Identifies the ID of the measurement.
-        + `Rel` (string) - Relationship attribute of the link.
-        + `Href` (string) - Specifies the URL of the link.
+        + `location` (string) - specifies the relative url with the result of the requested operation
 
     + Body
 
             {
-                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "result":"???",
-                "processeddate":"???",
-                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
-                "measurementId":3,
-                "rel":"???",
-                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
+                location": "Api/MetadocumentCommandResults/b2ec82f2-1438-47cd-a982-6b2e3b0476c7"
             }
 
 + Response 401  (application/hal+json)
@@ -564,28 +529,16 @@ Updates the metadocument with specific Guid and given parameters.
 Deletes the metadocument with specific Guid.
 
 + Parameters
-    + guid (string, required) - Specifies the unique identifier for the metadocument.
+    + guid (string, required) - unique identifier for the metadocument
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `guid` (string) - Specifies the metadocument command unique identifier.
-        + `result` (string) - The command result.
-        + `processeddate` (string) - Specifies the processed date of the command.
-        + `metadocumentguid` (string) - Identifies the metadocument unique identifier.
-        + `measurementId` (string) - Identifies the ID of the measurement.
-        + `Rel` (string) - Relationship attribute of the link.
-        + `Href` (string) - Specifies the URL of the link.
+        + `location` (string) - specifies the relative url with the result of the requested operation
 
     + Body
 
             {
-                "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "result":"???",
-                "processeddate":"???",
-                "metadocumentguid":"58b448c2-c244-4640-83f8-513dbc70cdf5",
-                "measurementId":3,
-                "rel":"???",
-                "href":"/Api/Metadocuments/58b448c2-c244-4640-83f8-513dbc70cdf5"
+                location": "Api/MetadocumentCommandResults/b2ec82f2-1438-47cd-a982-6b2e3b0476c7"
             }
 
 + Response 401  (application/hal+json)
@@ -614,7 +567,7 @@ Deletes the metadocument with specific Guid.
 Gets metadocument with specific Guid with embedded comments.
 
 + Parameters
-    + guid (string, required) - specifies the unique identifier for the metadocumenta
+    + guid (string, required) - unique identifier for the metadocument
 
 + Response 200 (application/hal+json)
     + Attributes
