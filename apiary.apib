@@ -7,23 +7,32 @@ Plantyst Portal API is a REST API designed to access data related to customer me
 
 # Group Measurements
 
-This section contains endpoints for the resources related to measurements and their basic properties.
+This section contains endpoints for the resources related to measurements and their basic properties. A measurement is a key data object to which the most of other API data has a relation. A measurement object has the following properties:
 
-## Measurements Collection [/Measurements/{?currentSubscriptionOnly}]
+* `measurementId` - unique identifier of the measurement
+* `title` - title of the measurement
+* `description` - additional description for the measurement
+* `quantityType` - type of the measured quantity
+* `archived` - determines whether the measurement is archived
+* `first` - date time of the first collected data sample
+* `rights` - the array of current user access rights for the measurement
 
-### List Measurements [GET]
-
-Gets the list of measurements for which the current user has the access rights for view or higher. The rights used in the Plantyst application are the following:
+The rights used in the Plantyst application are the following:
 * _View_ - right to view measurement data
 * _Contributor_ - right to add or update additional information (like annotations)
 * _Admin_ - right to update measurement data (user access, tags, ...)
 * _Owner_ - same as Admin, but the access rigths can't be revoked
 
+## Measurements Collection [/Measurements/{?currentSubscriptionOnly}]
+
+### List Measurements [GET]
+
+Gets the list of measurements for which the current user has the access rights for view or higher. 
+
 Along with the measurements, additional data are sent as the embedded resources as follows:
 * `timezone` array of all distinct timezones assigned to measurements
 * `tag` array of all distinct tags assigned to measurements
 * `measurementDataVersion` array of measurement data versions
-* `measurement` array of all accessible measurements for the current user
 
 + Parameters
     + currentSubscriptionOnly (boolean, `true`) ... Determines whether all measurements or only measurements from the user's current subscription are returned.
@@ -35,80 +44,31 @@ Along with the measurements, additional data are sent as the embedded resources 
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `timeZones` (array)
+        + `timeZones` (array) - timezones referenced by the measurements
             + (object)
-                + `id` (string) - The time zone identifier.
-                + `name` (string) - The time zone full name.
-                + `iana` (string) - The time zone IANA codeMe.
-                + `_links` (array)
-                    + (object)
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-            + `_embedded` (string) - ???
-        + `tags` (array) - Array of tags assigned to the measurement.
+                + `id` (string) - the time zone identifier
+                + `name` (string) - the time zone full name
+                + `iana` (string) - the time zone IANA codeMe
+        + `tags` (array) - timezones assigned to the measurements
             + (object)
-                + `id` (number) - The tag identifier.
-                + `title` (string) - The tag title.
-                + `color` (string) - The tag color represented hexadecimal color values.
-                + `_links` (array)
-                    + (object)
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-                + `_embedded` (string) - ???
-        + `dataVersions` (array) - Array with version of data???
+                + `id` (number) - the tag identifier
+                + `title` (string) - the tag title
+                + `color` (string) - the tag color represented hexadecimal color values
+        + `dataVersions` (array) - versions of various measurement-related data
             + (object)
-                + `id` (number) - The data version identifier.
-                + `title` (string) - The data version tile.
-                + `lastModified` (string) - The last modification???
-                + `_links` (array)
-                    + (object)
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-                + `_embedded` (string) - ???
-        + `resourceList` (array) - The array of resource list.
+                + `id` (number) - the data version identifier
+                + `title` (string) - the data type tile
+                + `lastModified` (string) - the date time of the last data modification
+        + `resourceList` (array) - the array of _Measurement_ objects
             + (object)
-                + `measurementId` (string) - The measurement identifier.
-                + `title` (string) - The measurement title.
-                + `description` (string) - The measurement description.
-                + `quantityType` (string) - The type of quantity.
-                + `archived` (boolean) - Determines if measurement is archived???
-                + `first` (string) - ???
-                + `rights` (array) - The array of rights.
-                    + `Admin` (string) - ???
-                + `_links` (array)
-                    + (object) - Self.
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-                    + (object) - Timezone.
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-                    + (object) - Tags.
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-                    + (object) - Data versions.
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-                    + (object) - Anotations.
-                        + `rel` (string) - The relation ???
-                        + `href` (string) - Specifies the URL of the link.
-                        + `title` (string) - The title ???
-                        + `isTemplated` (boolean) - Defines if is templated ???
-            + `_embedded` (string) - ???
-
+                + `measurementId` (string)
+                + `title` (string)
+                + `description` (string)
+                + `quantityType` (string)
+                + `archived` (boolean)
+                + `first` (string)
+                + `rights` (array)
+                    + (string) - assigned right
     + Body
 
             {
