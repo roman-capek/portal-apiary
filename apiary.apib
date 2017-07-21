@@ -401,7 +401,34 @@ For five output format items and two data samples, there will be ten data items 
 
 # Group Metadocuments
 
-Resources related to metadocuments in the API.
+Resources related to metadocuments in the API. Metadocument is a general term for various types of measurement-related data like annotations, comments, jobs or downtime entries. Metadocument has the following properties:
+
+* `Guid` - unique identifier of the metadocument (mandatory)
+* `MeasurementId` - identifier of the measurement to which the metadocument belongs (mandatory)
+* `Type` - type of the metadocument (mandatory); available values:
+    * 0 - undefined type
+    * 1 - annotation
+    * 2 - job
+    * 3 - downtime
+* `LastModified` - date time of the last modification in UTC (mandatory)
+* `From` - start date time in UTC (mandatory)
+* `To`  - end date time in UTC (optional)
+* `Title` - metadocument title (optional)
+* `Description` - extended description, enables _MarkDown_ markup language (optional)
+* `CustomId` - user-defined identifier (optional)
+* `Color` - color in hex color code (optional)
+* `Setpoint` - setpoint for the metadocument; represents the desired value for the measured quantity (optional)
+* `DowntimeCode` - related downtime code identifier (optional)
+* `CreatorId` - user identifier of the metadocument creator (optional)
+* `Operations` - operations defined as the array of string values (optional)
+* `Comments` - array of comment objects (mandatory)
+
+A metadocument comment is a self-contained object with the following properties:
+
+* `Id` - identifier of the comment; unique within the metadocument (mandatory)
+* `Text` - comment text (mandatory)
+* `ModificationTime` - UTC date time of the last modification (mandatory)
+
 
 ## Add or Patch Metadocument [/Metadocuments/]
 
@@ -411,21 +438,21 @@ Adds metadocument of given type for the specific measurement.
 
 + Request
     + Attributes
-        + `MeasurementId` (number, required) - Identifies the ID of the measurement.
-        + `Title` (string) - Title of metadocument.
-        + `Description` (string) - Description of the current document.
-        + `CustomId` (string) - Specifies the customer (user) specific identificator.
-        + `From` (string, required) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
-        + `To` (string, required) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `Setpoint` (number) - The setpoint for the metadocument.
-        + `MetadocumentType` (number, required) - Identifies type of metadocument
+        + `MeasurementId` (number, required)
+        + `Title` (string)
+        + `Description` (string)
+        + `CustomId` (string)
+        + `From` (string, required)
+        + `To` (string, required)
+        + `Setpoint` (number)
+        + `MetadocumentType` (number, required)
             0 The undefined type.
             1 The annotation.
             2 The job.
             3 The downtime.
-        + `Color` (string) - The color in hex color code.
-        + `Operations` (string) - Specifies the operations for the curremnt metadocument.
-        + `DowntimeCode` (string) - The code for down time.
+        + `Color` (string)
+        + `Operations` (string)
+        + `DowntimeCode` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
