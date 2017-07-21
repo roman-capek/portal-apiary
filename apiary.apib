@@ -286,10 +286,10 @@ Gets the list of Time Series Aggregation items for the given measurement.
 
 The request contains the definition of queries, each for one measurement. A required part of the query is the `View` parameter, which specifies the type of the data aggregation.
 Available values are:
-* `Base.MinuteSet` - set of atomic minute aggregations, each for one UTC minute
-* `Base.Hour` - set of hour aggregations, each for one UTC hour
-* `Base.Day` - set of day aggregations, each for one day in the measurement time zone
-* `Base.Month` - set of month aggregations, each for one month in the measurement time zone
+* `"Base.MinuteSet"` - set of atomic minute aggregations, each for one UTC minute
+* `"Base.Hour"` - set of hour aggregations, each for one UTC hour
+* `"Base.Day"` - set of day aggregations, each for one day in the measurement time zone
+* `"Base.Month"` - set of month aggregations, each for one month in the measurement time zone
 
 The response for the request contains the copy of the original query, the set of data items and the recipe for the interpretation of the data items (`outputFormat`).
 Each item in the output format defines interpretation of the respective data item.
@@ -321,9 +321,9 @@ For five output format items and two data samples, there will be ten data items 
                     },
                     {
                         "MeasurementId": 4,
-                        "From": "2017-06-01T00:00:00Z",
-                        "To": "2017-06-01T00:09:00Z",
-                        "View": "Base.MinuteSet",
+                        "From": "2017-05-31T21:00Z",
+                        "To": "2017-05-31T23:00Z",
+                        "View": "Base.Hour",
                         "Precision": "2"
                     }
                 ]
@@ -366,8 +366,8 @@ For five output format items and two data samples, there will be ten data items 
                             "view": "Base.Hour",
                             "precision": "2",
                             "measurementId": 4,
-                            "from": "2017-05-31T22:00Z",
-                            "to": "2017-05-31T22:09Z"
+                            "from": "2017-05-31T21:00Z",
+                            "to": "2017-05-31T23:00Z"
                         },
                         "outputFormat": [
                             "ItemCount", "TimeSquareSum", "TimeSum", "TimeValueSum", "ValueSum"
