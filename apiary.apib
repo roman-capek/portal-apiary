@@ -14,8 +14,8 @@ The authorization for the API calls uses token-based principle _JWT_ (_JSON Web 
     * `iss` - issuer - the application identifier (required)
     * `accessKey` - user access key (required)
     * `aud` - audience - the target authorization authority (required)
-    * `nbf` - not before - timestamp of the token validity start date (optional)
-    * `exp` - expiration - timestamp of the token validity end date (optional)
+    * `nbf` - not before - Unix timestamp of the token validity start date (optional)
+    * `exp` - expiration - Unix timestamp of the token validity end date (optional)
 * _Signature_ - defines the secret user key for the encryption
 
 _Header_ and _Payload_ are encoded using the _base64url_ encoding, all three parts are contactenated by a dot character (.) and the whole token is signed using _HMAC-SHA256_ algorithm: `tokenValue=HMAC-SHA256(secret, encodeBase64Url(Header) + '.' + encodeBase64Url(Payload))`
