@@ -199,12 +199,6 @@ Along with the measurements, additional data are sent as the embedded resources 
                             "href": "~/Api/MeasurementDataVersion/414",
                             "title": null,
                             "isTemplated": false
-                        },
-                        {
-                            "rel": "annotations",
-                            "href": "~/Api/Measurement/695/Annotations",
-                            "title": null,
-                            "isTemplated": false
                         }
                 ],
                 "_embedded": null
@@ -241,12 +235,6 @@ Along with the measurements, additional data are sent as the embedded resources 
                         {
                             "rel": "dataVersions",
                             "href": "~/Api/MeasurementDataVersion/415",
-                            "title": null,
-                            "isTemplated": false
-                        },
-                        {
-                            "rel": "annotations",
-                            "href": "~/Api/Measurement/696/Annotations",
                             "title": null,
                             "isTemplated": false
                         }
@@ -288,37 +276,38 @@ Along with the measurements, additional data are sent as the embedded resources 
 
 # Group Measurement Data
 
-Resources related to measurements data in the API.
+This section describes the API endpoints for accessing the basic measurement data.
 
 ## Measurement Time Series Aggregation Collection [/MeasurementTimeSeriesAggregationsQuery]
 
 ### List Measurement Time Series Aggregation [POST]
 
-Gets list of Time Series Aggregation for the given measurement.
+Gets the list of Time Series Aggregation items for the given measurement.
 
-The `view` available for the given measurement is provided in the `results` of Measurement API endpoint.
+The request contains the definition of queries, each for one measurement. A required part of the query is the `View` parameter, which specifies the type of the data aggregation.
+Available values are:
+* `Base.MinuteSet` - set of atomic minute aggregations, each for one UTC minute
+* `Base.Hour` - set of hour aggregations, each for one UTC hour
+* `Base.Day` - set of day aggregations, each for one day in the measurement time zone
+* `Base.Month` - set of month aggregations, each for one month in the measurement time zone
 
-In the response, each of the members of the `results` array contains objects:
-* `query` - A copy of a query from the *request*, identifying which query the result belongs to.
-* `outputFormat` - Array of fields present in the `data` array. The array defines the meaning of the *data* values
-in their respective order, as they are n-uples put into a single, one-dimensional array.
-The n-uple is described by n elements of the `outputFormat` array.
-The array may contain the following values:
-    * `itemCount` *int*. Omittable.
-    * `timeSquareSum` *long*. Omittable.
-    * `timeSum` *long*. Omittable.
-    * `timeValueSum` *double*. Omittable.
-    * `valueSum` *double*. Always present, specifies the count of items in the aggregation..
-* `data` - The result of the query in format described by the `outputFormat` array.
+The response for the request contains the copy of the original query, the set of data items and the recipe for the interpretation of the data items (`outputFormat`).
+Each item in the output format defines interpretation of the respective data item.
+For five output format items and two data samples, there will be ten data items in the response. The array may contain the following values:
+* `itemCount` - defines the count of the atomic data items in the aggregation (optional)
+* `timeSquareSum` - auxiliary value for the optimized data computations (optional)
+* `timeSum` - auxiliary value for the optimized data computations (optional)
+* `timeValueSum` - auxiliary value for the optimized data computations (optional)
+* `valueSum` - specifies the overal (sum) value of the data item (mandatory)
 
 + Request (application/hal+json)
     + Attributes
         + Queries (object)
-            + `MeasurementId` (number, required) - Identifies the ID of the measurement.
-            + `From` (number, required) - Timestamp, specifies the lower bound of the data query.
-            + `To` (number, required) - Timestamp, specifies the upper bound of the data query.
-            + `View` (string, required) - Identifies the measurement view to be used.
-            + `Precision` (number, required) - Specifies the number of precision.
+            + `MeasurementId` (number, required) - unique measurement identifier
+            + `From` (number, required) - UTC date time in ISO 8061 format that specifies the lower bound of the data query
+            + `To` (number, required) - UTC date time in ISO 8061 format that specifies the upper bound of the data query
+            + `View` (string, required) - specifies the requested time series type
+            + `Precision` (number, required) - specifies the number of precision of the returned values
     + Body
 
             {
@@ -345,14 +334,14 @@ The array may contain the following values:
         + `results` (array)
             + (object)
                 + `query` (object)
-                    + `view` (string, required) - Identifies the measurement view to be used.
-                    + `precision` (number, required) - Specifies the number of precision.
-                    + `measurementId` (number, required) - Identifies the ID of the measurement.
-                    + `from` (number, required) - Timestamp, specifies the lower bound of the data query.
-                    + `to` (number, required) - Timestamp, specifies the upper bound of the data query.
-                + `outputFormat` (array) - Array of output formats.
-                + `data` (array) - Array of data series.
-                + `first` (string) - Date time of first ???. Date time format is in ISO 8601???.
+                    + `MeasurementId` (number)
+                    + `From` (number)
+                    + `To` (number)
+                    + `View` (string)
+                    + `Precision` (number)
+                + `outputFormat` (array) - defines the interpretation for the `data` section
+                + `data` (array) - array of data items
+                + `first` (string) - UTC date time of first returned data item in ISO 8601 format
 
     + Body
 
@@ -374,16 +363,16 @@ The array may contain the following values:
                     },
                     {
                         "query": {
-                            "view": "Base.MinuteSet",
+                            "view": "Base.Hour",
                             "precision": "2",
                             "measurementId": 4,
                             "from": "2017-05-31T22:00Z",
                             "to": "2017-05-31T22:09Z"
                         },
                         "outputFormat": [
-                            "ValueSum"
+                            "ItemCount", "TimeSquareSum", "TimeSum", "TimeValueSum", "ValueSum"
                         ],
-                        "data":[7,13,11,11,8,9,11,6,6,0],
+                        "data":[60,70210,1770,33352,1196,60,70210,1770,24442,963,60,70210,1770,45655,1512],
                         "first":"2017-05-31Z22:00:00Z"
                     }
                 ]
