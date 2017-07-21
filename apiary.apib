@@ -823,12 +823,10 @@ Gets the metadocument command result.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `Guid` (string) - Specifies the unique identifier for the metadocument command result.
-        + `Result` (string) - Identifies the command result.
-        + `ProcessedDate` (string) - Processed date time of the command. Date time format is in ISO 8601???.
-        + `MetadocumentGuid` () - Specifies the unique identifier for the metadocument.
-        + `rel` (string) - The relation ???
-        + `href` (string) - Specifies the URL of the link.
+        + `guid` (string) - unique identifier for the metadocument command result
+        + `result` (string) - text representation of the result
+        + `processedDate` (string) - processed date time of the command in ISO 8601 format
+        + `metadocumentGuid` (string) - specifies identifier for the related metadocument
 
     + Body
 
@@ -839,7 +837,10 @@ Gets the metadocument command result.
                 "metadocumentGuid":"2b8748ba-8830-4350-b68b-2599d53f2701",
                 "_links": {
                     "self": {
-                        "href":"/Api/MetadocumentCommandResults/27a858a0-c244-4640-83f8-513dbc70c2e6"
+                        "href":"/Api/MetadocumentCommandResults/f57513ba-c004-45bc-b28c-610eb00de7c"
+                    },
+                    "metadocument": {
+                        "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6"
                     }
                 }
             }
