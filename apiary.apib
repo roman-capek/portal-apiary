@@ -480,16 +480,17 @@ Updates the metadocument with specific Guid and given parameters.
 
 + Request
     + Attributes
-        + `Guid` (string, required) - Specifies the unique identifier for the metadocument.
-        + `Title` (string) - Title of metadocument.
-        + `Description` (string) - Description of the current document.
-        + `CustomId` (string) - Specifies the customer (user) specific identificator.
-        + `CreatorId` (number) - The unique identifier creator of metadocument.
-        + `From` (string) - Specifies the metadocument validity from. Date time format is in ISO 8601???.
-        + `To` (string) - Specifies the metadocument validity to. Date time format is in ISO 8601???.
-        + `Color` (string) - The color in hex color code.
-        + `Setpoint` (number) - The setpoint for the metadocument.
-        + `Operations` (string) - Specifies the operations for the curremnt metadocument.
+        + `Guid` (string, required)
+        + `MeasurementId` (number, required)
+        + `From` (string, required)
+        + `To` (string)
+        + `Title` (string)
+        + `Description` (string)
+        + `CustomId` (string)
+        + `Setpoint` (number)
+        + `Color` (string)
+        + `Operations` (array)
+        + `DowntimeCode` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
@@ -678,11 +679,11 @@ Gets the metadocuments for a given measurement and time range.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `responseContinuation` (string) - ???.
-        + `dateTime` (string) - Date time of query. Date time format is in ISO 8601???.
+        + `responseContinuation` (string) - continuation token if the returned data are too long for one response; empty if the query is fully satisfied
+        + `dateTime` (string) - UTC date time in ISO 8601 format for which the response is up to date
         + _links (object)
             + self (object)
-                + href (string, required) - Specifies the URL of the link.
+                + href (string, required) - Specifies the URL of the link
         + `_embedded` (object)
             + `user` (array)
                 + (object)
@@ -815,10 +816,10 @@ Gets the metadocuments for a given measurement and time range.
 
 ### Get Metadocument Command Result [GET]
 
-Gets the metadocument command result for given metadocument.
+Gets the metadocument command result.
 
 + Parameters
-    + guid (string, required) - Specifies the unique identifier for the metadocument command result.
+    + guid (string, required, `f57513ba-c004-45bc-b28c-610eb00de7c`) - unique identifier for the metadocument command result
 
 + Response 200 (application/hal+json)
     + Attributes
@@ -833,7 +834,7 @@ Gets the metadocument command result for given metadocument.
 
             {
                 "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "result":???,
+                "result":"Success",
                 "processedDate":"2017-06-26T05:30:00Z",
                 "metadocumentGuid":"2b8748ba-8830-4350-b68b-2599d53f2701",
                 "_links": {
