@@ -530,7 +530,7 @@ Updates the metadocument with specific Guid and given parameters.
                 "message":"Not Found."
             }
 
-## Get or Delete Metadocument [/Metadocuments/{guid}]
+## Delete or Get Metadocument [/Metadocuments/{guid}]
 
 ### Delete Metadocument [DELETE]
 
@@ -873,10 +873,6 @@ Gets the metadocument command result.
                 "message":"Not Found."
             }
 
-# Group Metadocuments Comment
-
-Resources related to metadocument comment in the API.
-
 ## Add or Patch Metadocument Comment [/Metadocuments/{guid}/Comments]
 
 ### Add Metadocument Comment [POST]
@@ -889,10 +885,10 @@ Adds comment to the specific metadocument.
 + Request
     + Attributes
         + Queries (object)
-            + `Id` (number, required) - The comment identifier???.
-            + `Text` (string) - Text of the comment.
-            + `Time` (string) - Modification time of metadocument comment. Date time format is in ISO 8601???.
-            + `UserId` (string) - Specifies the customer (user) specific identificator.
+            + `Id` (number, required)
+            + `Text` (string)
+            + `Time` (string)
+            + `UserId` (string)
 
     + Body
 
@@ -909,7 +905,7 @@ Adds comment to the specific metadocument.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `location` (string) - The location of ???.
+        + `location` (string) - specifies the relative url with the result of the requested operation
 
     + Body
 
@@ -948,13 +944,13 @@ Updates comment for the specific metadocument.
 + Request
     + Attributes
         + Queries (object)
-            + `Id` (number, required) - The comment identifier???.
-            + `Text` (string) - Text of the comment.
-            + `Time` (string) - Modification time of metadocument comment. Date time format is in ISO 8601???.
+            + `Id` (number, required)
+            + `Text` (string)
+            + `Time` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `location` (string) - The location of ???.
+        + `location` (string) - specifies the relative url with the result of the requested operation
 
     + Body
 
@@ -995,13 +991,13 @@ Deletes comment for the specific metadocument.
 + Request
     + Attributes
         + Queries (object)
-            + `Id` (number, required) - The comment identifier???.
-            + `Text` (string) - Text of the comment.
-            + `Time` (string) - Modification time of metadocument comment. Date time format is in ISO 8601???.
+            + `Id` (number, required)
+            + `Text` (string)
+            + `Time` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `location` (string) - The location of ???.
+        + `location` (string) - specifies the relative url with the result of the requested operation
 
     + Body
 
