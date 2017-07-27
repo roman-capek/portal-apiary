@@ -579,19 +579,15 @@ Gets metadocument with specific Guid with embedded comments.
 
 + Response 200 (application/hal+json)
     + Attributes
-        + `measurementId` (number)
+        + `guid` (string)
+        + `type` (number)
         + `title` (string)
-        + `description` (string)
-        + `customId` (string)
+        + `creatorId` (number)
+        + `measurementId` (number)
         + `from` (string)
         + `to` (string)
-        + `type` (number)
         + `color` (string)
         + `setpoint` (number)
-        + `operations` (array)
-            + (string)
-        + `downtimeCode` (string)
-        + `creatorId` (number)
         + `lastModified` (string)
         + `_embedded` (object)
             + `comment` (array)
@@ -604,17 +600,14 @@ Gets metadocument with specific Guid with embedded comments.
 
             {
                 "guid":"27a858a0-c244-4640-83f8-513dbc70c2e6",
-                "measurementId":3,
+                "type":3,
                 "title":"Downtime title",
-                "description":"Downtime description",
-                "customid":"CustId-1",
+                "creatorId":497,
+                "measurementId":3,
                 "from":"2017-06-26T05:30:00Z",
                 "to":"2017-06-26T07:30:00Z",
-                "setpoint":50.0,
-                "type":3,
                 "color":"#969614",
-                "downtimecode":"E6",
-                "creatorId":497,
+                "setpoint":50.0,
                 "lastModified":"2017-06-26T09:25:15Z",
                 "_links": {
                     "self": {
@@ -622,21 +615,21 @@ Gets metadocument with specific Guid with embedded comments.
                     }
                 },
                 "_embedded": {
-                "comment": [
-                    {
-                        "id":1,
-                        "text":"Comment text",
-                        "modificationTime":"2017-07-19T11:52:12Z",
-                        "_links": {
-                            "self": {
-                                "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6/Comments/1/"
-                            },
-                            "user": {
-                                "href":"/Api/User/101"
+                    "comment": [
+                        {
+                            "id":1,
+                            "text":"Comment text",
+                            "modificationTime":"2017-07-19T11:52:12Z",
+                            "_links": {
+                                "self": {
+                                    "href":"/Api/Metadocuments/27a858a0-c244-4640-83f8-513dbc70c2e6/Comments/1/"
+                                },
+                                "user": {
+                                    "href":"/Api/User/101"
+                                }
                             }
                         }
                     }
-                }
             }
 
 + Response 401 (application/hal+json)
@@ -669,9 +662,9 @@ Gets the metadocuments for a given measurement and time range.
 + Request (application/hal+json)
     + Attributes
         + Queries (object)
-            + `MeasurementId` (number, required) - Identifies the ID of the measurement.
-            + `From` (string, required) - Timestamp, specifies the lower bound of the data query. Date time format is in ISO 8601???.
-            + `To` (string, required) - Timestamp, specifies the upper bound of the data query. Date time format is in ISO 8601???.
+            + `MeasurementId` (number, required)
+            + `From` (string, required)
+            + `To` (string, required)
     + Body
 
             {
@@ -690,43 +683,39 @@ Gets the metadocuments for a given measurement and time range.
         + `dateTime` (string) - UTC date time in ISO 8601 format for which the response is up to date
         + _links (object)
             + self (object)
-                + href (string, required) - Specifies the URL of the link
+                + href (string, required)
         + `_embedded` (object)
             + `user` (array)
                 + (object)
-                    + `userId` (number) - The unique identifier of user.
-                    + `name` (string) - The name of user.
+                    + `userId` (number)
+                    + `name` (string)
                     + _links (object)
                         + self (object)
-                            + href (string, required) - Specifies the URL of the link.
+                            + href (string, required)
             + `metadocument` (array)
                 + (object)
-                    + `guid` (string) - Specifies the metadocument command unique identifier.
-                    + `type` (number, required) - Identifies type of metadocument.
-                        0 The undefined type.
-                        1 The annotation.
-                        2 The job.
-                        3 The downtime.
-                    + `creatorId` (number) - The unique identifier creator of metadocument.
-                    + `measurementId` (number) - Identifies the ID of the measurement.
-                    + `from` (string) - Timestamp, specifies the lower bound of the data query. Date time format is in ISO 8601???.
-                    + `to` (string, required) - Timestamp, specifies the upper bound of the data query. Date time format is in ISO 8601???.
-                    + `color` (string) - The color in hex color code.
-                    + `lastModified` (string) - The last modified date time. Date time format is in ISO 8601???.
+                    + `guid` (string)
+                    + `type` (number, required)
+                    + `creatorId` (number)
+                    + `measurementId` (number)
+                    + `from` (string)
+                    + `to` (string, required)
+                    + `color` (string)
+                    + `lastModified` (string)
                     + _links (object)
                         + self (object)
-                            + href (string, required) - Specifies the URL of the link.
+                            + href (string, required)
                     + `_embedded` (object)
                         + `comment` (array)
                             + (object)
-                                + `id` (number) - The identifier of comment.
-                                + `text` (string) - Comment text.
-                                + `modificationTime` (string) - Time when comment was modified. Date time format is in ISO 8601???.
+                                + `id` (number)
+                                + `text` (string)
+                                + `modificationTime` (string)
                                 + _links (object)
                                     + self (object)
-                                        + href (string, required) - Specifies the URL of the link.
+                                        + href (string, required)
                                     + user (object)
-                                        + href (string, required) - Specifies the URL of the link.
+                                        + href (string, required)
     + Body
 
             {
