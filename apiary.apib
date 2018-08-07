@@ -24,7 +24,7 @@ Values of `iss`, `accessKey` and `secret` are established while the token is bei
 
 A token is always related to a specific user and it serves to access the resources with his access rights.
 
-The resulting token has to be included in the _Headers_ part of the request with the header name set to `Authorization` and value equal to `Token tokenValue`.
+The resulting token has to be included in the _Headers_ part of the request with the header name set to `Authorization` and value equal to `Bearer tokenValue`.
 
 # Group Measurements
 
@@ -659,7 +659,7 @@ Gets metadocument with specific Guid with embedded comments.
 
 Gets the metadocuments for a given measurement and time range.
 
-+ Request (application/hal+json)
++ Request (application/json)
     + Attributes
         + Queries (object)
             + `MeasurementId` (number, required)
