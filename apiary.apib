@@ -1014,3 +1014,74 @@ Deletes comment for the specific metadocument.
             {
                 "message":"Not Found."
             }
+
+# DowntimeDictionary
+The section contains information about controller that returns downtime codes for set of measurements.
+
+## Get [GET]
+Gets the downtime codes for requested measurements.
+
++ Parameters
+    + ids (array, `[10]`) ... Set of measurement identifiers which downtime codes are searched for.
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `_embedded` (object)
+            + `downtimeCode` (array)
+                + (object)
+                    + `downtimeCodeId` (number)
+                    + `key` (string)
+                    + `code` (string)              
+                    + `title` (string)
+                    + `severity` (number)
+                    + `commandGuid` (string)
+            + `measurementDowntimeCode` (object)
+                    + `measurementId` (number)
+    + Body
+        {
+            "_links": {
+                "self": {
+                    "href":"/Api/DowntimeCodes"
+                }
+            },
+            "_embedded": {
+                "downtimeCode": [{   
+                    "downtimeCodeId":61,
+                    "key":"54",
+                    "code":"01",
+                    "title":"Chybí materiál",
+                    "severity":0,
+                    "commandGuid":"61e38514-c514-426e-82d0-e19b3e60e6da",
+                    "_links": {
+                        "self": {
+                            "href":"/Api/DowntimeCode/61"
+                            }
+                        }
+                    }
+                ],
+                "measurementDowntimeCode": {
+                    "measurementId": 100,
+                    "_links": {
+                        "downtimeCode": [{
+                            "href": "/Api/DowntimeCode/61"
+                            }
+                        ],
+                        "self": {
+                            "href": "/Api/Measurement/100/DowntimeCode"
+                        }
+                    }
+                }
+            }
+        }
+
++ Response 400  (application/hal+json)
+    + Body
+        {
+            "message":"Bad request."
+        }
+
++ Response 403  (application/hal+json)
+    + Body
+        {
+            "message":"Forbidden."
+        }
