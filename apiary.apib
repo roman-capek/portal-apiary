@@ -5,26 +5,53 @@ HOST: https://portal.plantyst.com/api/
 
 Plantyst Portal API is a REST API designed to access data related to customer measurements like basic time series, metrics or annotations.
 
-# Group Authorization
+# Group Authorization OAuth 2.0
 
 The authorization for the API calls uses token-based principle _JWT_ (_JSON Web Token_). The token has three main parts:
-* _Header_ - _JSON_ containing basic information about the token - type and hash algorithm
-    * Example: `{ "alg": "HS256", "typ": "JWT"}`
-* _Payload_ - _JSON_ containing information about the user in the form of _claims_:
-    * `iss` - issuer - the application identifier (required)
-    * `accessKey` - user access key (required)
-    * `aud` - audience - the target authorization authority (required)
-    * `nbf` - not before - Unix timestamp of the token validity start date (optional)
-    * `exp` - expiration - Unix timestamp of the token validity end date (optional)
-* _Signature_ - defines the secret user key for the encryption
 
-_Header_ and _Payload_ are encoded using the _base64url_ encoding, all three parts are contactenated by a dot character (.) and the whole token is signed using _HMAC-SHA256_ algorithm: `tokenValue=HMAC-SHA256(secret, encodeBase64Url(Header) + '.' + encodeBase64Url(Payload))`
+The OAuth2 workflow is designed to aquire a user token for the access to user resources in Plantyst through the public Api. The token serves as the authorization mechanism for the third party applications. The application needs to be registered in the Plantyst system, having its own client_id, client_secret and redirect_uri properties (to register new application, please contact us at [support@plantyst.com](mailto:support@plantyst.com). To get the access token, the application has to begin by redirecting the user to the following url:
 
-Values of `iss`, `accessKey` and `secret` are established while the token is being initiated in the Plantyst application. Value of `aud` is always equal to `"https://my.plantyst.com"`.
+## Request token [/OAuth/Authorize?client_id={client_id}&response_type=code&redirect_uri={url_encoded_redirect_uri}&state={optional_state_string}]
 
-A token is always related to a specific user and it serves to access the resources with his access rights.
+### Get request token [GET]
+Where the query string parameters are the following:
+* `client_id` - obtained during the registration process of the application
+* `response_type` - the type of the authorization flow; currently, Platnyst supports only „code“ type
+* `redirect_uri` - absolute Url to which the user will be redirect after successfull login
+* `state` - optional parameter, returned back to redirect Url
 
-The resulting token has to be included in the _Headers_ part of the request with the header name set to `Authorization` and value equal to `Bearer tokenValue`.
+Once the user logs in and confirms the delegation of the rights to the third party application, the server redirects the user to the given redirect Url and adds the temporary AuthorizationCode to the response query string. The AuthorizationCode has a validity for 5 minutes
+
++ Parameters
+    + client_id (string, `9sgfr867q`) ... Obtained during the registration process of the application.
+    + response_type (string, `code`) ... The type of the authorization flow; currently, Platnyst supports only „code“ type.
+    + redirect_uri (string, `https://url`) ... Absolute Url to which the user will be redirect after successfull login.
+    + state (string, `option`, optional) ... Optional parameter, returned back to redirect Url.
+
++ Response 200 (application/hal+json)
+
+## Access token [/OAuth/Token]
+
+### Get access token [POST]
+To get the actual acces token, the client application sends a POST request to the server with the following parameters:
+* `grant_type` - "authorization_code"
+* `code` - temporary authorizaion code from the first step
+* `redirect_uri` - redirect_uri of the application
+* `client_id` - client_id of the application
+* `client_secret` - client_secret of the application
+
+The response of the server is the user authorization token (JWT token) that can be used to authorize Api requests by the given user.
+
++ Request (application/hal+json)
+    + Attributes
+        + Queries (object)
+            + `grant_type` (string, required) - "authorization_code"
+            + `code` (string, required) - temporary authorizaion code from the first step
+            + `redirect_uri` (string, required) - redirect_uri of the application
+            + `client_id` (string, required) - client_id of the application
+            + `client_secret` (string, required) - client_secret of the application
+
++ Response 200 (application/hal+json)
 
 # Group Measurements
 
