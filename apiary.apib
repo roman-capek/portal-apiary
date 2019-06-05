@@ -11,9 +11,10 @@ The authorization for the API calls uses token-based principle _JWT_ (_JSON Web 
 
 The OAuth2 workflow is designed to aquire a user token for the access to user resources in Plantyst through the public Api. The token serves as the authorization mechanism for the third party applications. The application needs to be registered in the Plantyst system, having its own client_id, client_secret and redirect_uri properties (to register new application, please contact us at [support@plantyst.com](mailto:support@plantyst.com). To get the access token, the application has to begin by redirecting the user to the following url:
 
-## Request token [/OAuth/Authorize?client_id={client_id}&response_type=code&redirect_uri={url_encoded_redirect_uri}&state={optional_state_string}]
+## OAuth login
 
-### Get request token [GET]
+### Get login page [GET]
+To fet the login page, application has to redirect the user to the following url: [https://portal.plantyst.com/OAuth/Authorize?client_id={client_id}&response_type=code&redirect_uri={url_encoded_redirect_uri}&state={optional_state_string}](https://portal.plantyst.com/OAuth/Authorize?client_id={client_id}&response_type=code&redirect_uri={url_encoded_redirect_uri}&state={optional_state_string}).
 Where the query string parameters are the following:
 * `client_id` - obtained during the registration process of the application
 * `response_type` - the type of the authorization flow; currently, Platnyst supports only „code“ type
@@ -30,7 +31,7 @@ Once the user logs in and confirms the delegation of the rights to the third par
 
 + Response 200 (application/hal+json)
 
-## Access token [/OAuth/Token]
+## Obtain token [/OAuth/Token]
 
 ### Get access token [POST]
 To get the actual acces token, the client application sends a POST request to the server with the following parameters:
@@ -44,12 +45,11 @@ The response of the server is the user authorization token (JWT token) that can 
 
 + Request (application/hal+json)
     + Attributes
-        + Queries (object)
-            + `grant_type` (string, required) - "authorization_code"
-            + `code` (string, required) - temporary authorizaion code from the first step
-            + `redirect_uri` (string, required) - redirect_uri of the application
-            + `client_id` (string, required) - client_id of the application
-            + `client_secret` (string, required) - client_secret of the application
+        + `grant_type` (string, required) - "authorization_code"
+        + `code` (string, required) - temporary authorizaion code from the first step
+        + `redirect_uri` (string, required) - redirect_uri of the application
+        + `client_id` (string, required) - client_id of the application
+        + `client_secret` (string, required) - client_secret of the application
 
 + Response 200 (application/hal+json)
 
@@ -329,12 +329,13 @@ For five output format items and two data samples, there will be ten data items 
 
 + Request (application/hal+json)
     + Attributes
-        + Queries (object)
-            + `MeasurementId` (number, required) - unique measurement identifier
-            + `From` (number, required) - UTC date time in ISO 8061 format that specifies the lower bound of the data query
-            + `To` (number, required) - UTC date time in ISO 8061 format that specifies the upper bound of the data query
-            + `View` (string, required) - specifies the requested time series type
-            + `Precision` (number, required) - specifies the number of precision of the returned values
+        + Queries (array)
+            + - (object)
+                + `MeasurementId` (number, required) - unique measurement identifier
+                + `From` (number, required) - UTC date time in ISO 8061 format that specifies the lower bound of the data query
+                + `To` (number, required) - UTC date time in ISO 8061 format that specifies the upper bound of the data query
+                + `View` (string, required) - specifies the requested time series type
+                + `Precision` (number, required) - specifies the number of precision of the returned values
     + Body
 
             {
@@ -448,6 +449,8 @@ Resources related to metadocuments in the API. Metadocument is a general term fo
 * `DowntimeCode` - related downtime code identifier (optional)
 * `CreatorId` - user identifier of the metadocument creator (optional)
 * `Operations` - operations defined as the array of string values (optional)
+* `ProductionEntries` - array of information about producted items like entry time, amount, OK or NOT OK items (optional)
+* `CustomFields` - array of custom fields (mandatory)
 * `Comments` - array of comment objects (mandatory)
 
 A metadocument comment is a self-contained object with the following properties:
@@ -482,6 +485,7 @@ Adds metadocument of given type for the specific measurement.
         + `Setpoint` (number)
         + `Color` (string)
         + `Operations` (array)
+        + `CustomFields` (array)
         + `DowntimeCode` (string)
 
 + Response 200 (application/hal+json)
@@ -680,6 +684,96 @@ Gets metadocument with specific Guid with embedded comments.
                 "message":"Not Found."
             }
 
+## Add or patch Production Entry [/Metadocuments/{guid}/ProductionEntries]
+
+### Add Production Entry [POST]
+
+Adds production entry into metadocument.
+
++ Parameters
+    + guid (string, required, `e2dd39dc-5389-43b9-b855-426af762811f`) ... unique identifier for the metadocument
+
++ Request
+    + Attributes
+        + `Value` (number, required)
+        + `Type` (string, required)
+        + `Note` (string)
+        + `Time` (string)
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `location` (string) - specifies the relative url with the result of the requested operation
+
+    + Body
+
+            {
+                location": "Api/MetadocumentCommandResults/b2ec82f2-1438-47cd-a982-6b2e3b0476c7"
+            }
+
++ Response 401  (application/hal+json)
+    + Body
+
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
+
+### Patch Production Entry [PATCH]
+
+Updates the production entry with specific Id and given parameters.
+
++ Request
+    + Attributes
+        + `Id` (number, required)
+        + `Value` (number, required)
+        + `Type` (string, required)
+        + `Note` (string)
+        + `Time` (string)
+
++ Response 200 (application/hal+json)
+    + Attributes
+        + `location` (string) - specifies the relative url with the result of the requested operation
+
+    + Body
+
+            {
+                location": "Api/MetadocumentCommandResults/b2ec82f2-1438-47cd-a982-6b2e3b0476c7"
+            }
+
++ Response 401  (application/hal+json)
+    + Body
+
+            {
+                "message":"Authorization has been denied for this request."
+            }
+
++ Response 403  (application/hal+json)
+    + Body
+
+            {
+                "message":"Forbidden."
+            }
+
++ Response 404  (application/hal+json)
+    + Body
+
+            {
+                "message":"Not Found."
+            }
+
 ## Get Metadocuments [/MetadocumentsQuery]
 
 ### Get Metadocuments [POST]
@@ -688,10 +782,11 @@ Gets the metadocuments for a given measurement and time range.
 
 + Request (application/json)
     + Attributes
-        + Queries (object)
-            + `MeasurementId` (number, required)
-            + `From` (string, required)
-            + `To` (string, required)
+        + Queries (array)
+            + - (object)
+                + `MeasurementId` (number, required)
+                + `From` (string, required)
+                + `To` (string, required)
     + Body
 
             {
@@ -900,11 +995,10 @@ Adds comment to the specific metadocument.
 
 + Request
     + Attributes
-        + Queries (object)
-            + `Id` (number, required)
-            + `Text` (string)
-            + `Time` (string)
-            + `UserId` (string)
+        + `Id` (number, required)
+        + `Text` (string)
+        + `Time` (string)
+        + `UserId` (string)
 
     + Body
 
@@ -959,10 +1053,9 @@ Updates comment for the specific metadocument.
 
 + Request
     + Attributes
-        + Queries (object)
-            + `Id` (number, required)
-            + `Text` (string)
-            + `Time` (string)
+        + `Id` (number, required)
+        + `Text` (string)
+        + `Time` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
@@ -1006,10 +1099,9 @@ Deletes comment for the specific metadocument.
 
 + Request
     + Attributes
-        + Queries (object)
-            + `Id` (number, required)
-            + `Text` (string)
-            + `Time` (string)
+        + `Id` (number, required)
+        + `Text` (string)
+        + `Time` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
