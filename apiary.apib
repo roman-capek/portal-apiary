@@ -450,6 +450,13 @@ Resources related to metadocuments in the API. Metadocument is a general term fo
 * `CreatorId` - user identifier of the metadocument creator (optional)
 * `Operations` - operations defined as the array of string values (optional)
 * `ProductionEntries` - array of information about producted items like entry time, amount, OK or NOT OK items (optional)
+* `Users` - array of information about users (optional)
+* `CustomId` - customer unique identifier (optional)
+* `CreatorId` - the identifier of the user who created the metadocument (optional)
+* `LastModified` - the last modified date of the metadocument (optional)
+* `DowntimeCodeKey` - down time code key (optional)
+* `PlannedFrom` - planned from date (optional)
+* `PlannedTo` - planned to date (optional)
 * `CustomFields` - array of custom fields (mandatory)
 * `Comments` - array of comment objects (mandatory)
 
@@ -487,6 +494,9 @@ Adds metadocument of given type for the specific measurement.
         + `Operations` (array)
         + `CustomFields` (array)
         + `DowntimeCode` (string)
+        + `DowntimeCodeKey` (string)
+        + `PlannedFrom` (string)
+        + `PlannedTo` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
@@ -528,7 +538,13 @@ Updates the metadocument with specific Guid and given parameters.
         + `Setpoint` (number)
         + `Color` (string)
         + `Operations` (array)
+        + `DowntimeCodeKey` (string)
+        + `PlannedFrom` (string)
+        + `PlannedTo` (string)
         + `DowntimeCode` (string)
+        + `DowntimeCodeKey` (string)
+        + `PlannedFrom` (string)
+        + `PlannedTo` (string)
 
 + Response 200 (application/hal+json)
     + Attributes
