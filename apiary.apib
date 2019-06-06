@@ -321,11 +321,11 @@ Available values are:
 The response for the request contains the copy of the original query, the set of data items and the recipe for the interpretation of the data items (`outputFormat`).
 Each item in the output format defines interpretation of the respective data item.
 For five output format items and two data samples, there will be ten data items in the response. The array may contain the following values:
-* `itemCount` - defines the count of the atomic data items in the aggregation (optional)
-* `timeSquareSum` - auxiliary value for the optimized data computations (optional)
-* `timeSum` - auxiliary value for the optimized data computations (optional)
-* `timeValueSum` - auxiliary value for the optimized data computations (optional)
-* `valueSum` - specifies the overal (sum) value of the data item (mandatory)
+* `itemCount` - defines the count of the atomic data items in the aggregation
+* `timeSquareSum` - auxiliary value for the optimized data computations
+* `timeSum` - auxiliary value for the optimized data computations
+* `timeValueSum` - auxiliary value for the optimized data computations
+* `valueSum` - specifies the overal (sum) value of the data item
 
 + Request (application/hal+json)
     + Attributes
@@ -438,33 +438,33 @@ Resources related to metadocuments in the API. Metadocument is a general term fo
     * `1` - annotation
     * `2` - job
     * `3` - downtime
-* `LastModified` - date time of the last modification in UTC (mandatory)
-* `From` - start date time in UTC (mandatory)
-* `To`  - end date time in UTC (optional)
-* `Title` - metadocument title (optional)
-* `Description` - extended description, enables _MarkDown_ markup language (optional)
-* `CustomId` - user-defined identifier (optional)
-* `Color` - color in hex color code (optional)
-* `Setpoint` - setpoint for the metadocument; represents the desired value for the measured quantity (optional)
-* `DowntimeCode` - related downtime code identifier (optional)
-* `CreatorId` - user identifier of the metadocument creator (optional)
-* `Operations` - operations defined as the array of string values (optional)
-* `ProductionEntries` - array of information about producted items like entry time, amount, OK or NOT OK items (optional)
-* `Users` - array of information about users (optional)
-* `CustomId` - customer unique identifier (optional)
-* `CreatorId` - the identifier of the user who created the metadocument (optional)
-* `LastModified` - the last modified date of the metadocument (optional)
-* `DowntimeCodeKey` - down time code key (optional)
-* `PlannedFrom` - planned from date (optional)
-* `PlannedTo` - planned to date (optional)
-* `CustomFields` - array of custom fields (mandatory)
-* `Comments` - array of comment objects (mandatory)
+* `LastModified` - date time of the last modification in UTC
+* `From` - start date time in UTC
+* `To`  - end date time in UTC
+* `Title` - metadocument title
+* `Description` - extended description, enables _MarkDown_ markup language
+* `CustomId` - user-defined identifier
+* `Color` - color in hex color code
+* `Setpoint` - setpoint for the metadocument; represents the desired value for the measured quantity
+* `DowntimeCode` - related downtime code identifier
+* `CreatorId` - user identifier of the metadocument creator
+* `Operations` - operations defined as the array of string values
+* `ProductionEntries` - array of information about producted items like entry time, amount, OK or NOT OK items
+* `Users` - array of information about users
+* `CustomId` - customer unique identifier
+* `CreatorId` - the identifier of the user who created the metadocument
+* `LastModified` - the last modified date of the metadocument
+* `DowntimeCodeKey` - down time code key
+* `PlannedFrom` - planned from date
+* `PlannedTo` - planned to date
+* `CustomFields` - array of custom fields
+* `Comments` - array of comment objects
 
 A metadocument comment is a self-contained object with the following properties:
 
-* `Id` - identifier of the comment; unique within the metadocument (mandatory)
-* `Text` - comment text (mandatory)
-* `ModificationTime` - UTC date time of the last modification (mandatory)
+* `Id` - identifier of the comment; unique within the metadocument
+* `Text` - comment text
+* `ModificationTime` - UTC date time of the last modification
 
 __Command-based architecture__
 
