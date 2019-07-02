@@ -1162,35 +1162,39 @@ Uploads the CSV file with JOBs.
 
 The content of these CSV file must be MIME multipart content and only single file upload is supported.
 
+A response object has the following properties:
+
+* `guid` - unique identifier of the import operation
+* `result` - the result of import (Success, DataError when content of CSV is incorrect)
+* `processedDate` - processed date
+
++ Request (multipart/form-data;)
+
+        -----------------------------153421205227485
+        Content-Disposition: form-data; name="__RequestVerificationToken"
+        
+        HLvE7CKX47OnPMyOQjcU2ErGlLs8sCzCBAGmT4nDQSjtZea7UezLzUlqPHc8rm0AM6JJWQVoAkYRnmvuDGzdXlixEaCPr1qvNdMpsQHocJvi_H8UL8Xir5L1TKySz4HwssXhU519lNFTx-WJ2LqbgA2
+        -----------------------------153421205227485
+        Content-Disposition: form-data; name="jobTypesFile"; filename="CSV zakázky.csv"
+        Content-Type: application/vnd.ms-excel
+        
+        Title,Setpoint,MeasurementId,PlannedFrom,PlannedTo
+        "JOB 1",12,1234,"2019-07-02T06:50:00Z","2019-07-02T07:20:00Z"
+        
+        -----------------------------153421205227485--
+
 + Response 200 (application/hal+json)
-    + Attributes
-        + `location` (string) - specifies the relative url with the result of the requested operation
-
     + Body
 
             {
-              "location":"Api/CommandResults/deefa769-b7c4-4bb2-901d-89938caded5f"
-            }
-
-+ Response 401 (application/hal+json)
-    + Body
-
-            {
-                "message":"Authorization has been denied for this request."
-            }
-
-+ Response 403  (application/hal+json)
-    + Body
-
-            {
-                "message":"Forbidden."
-            }
-
-+ Response 404  (application/hal+json)
-    + Body
-
-            {
-                "message":"Not Found."
+              "guid": "5ad8938c-21dc-4b51-9b2c-3a8bfb2b816d",
+              "result": "Success",
+              "processedDate": "2019-07-02T09:51:27.7243622Z",
+              "_links": {
+                "self": {
+                  "href": "/api/commandResults/5ad8938c-21dc-4b51-9b2c-3a8bfb2b816d"
+                }
+              }
             }
 
 ## Get job types [/JobTypes]
@@ -1198,3 +1202,81 @@ The content of these CSV file must be MIME multipart content and only single fil
 ### Get job types [GET]
 
 Gets the list of uploaded JOBs.
+
+A response object has the following properties:
+
+* `jobTypeId` - unique JOB identifier
+* `title` - title of the JOB
+* `setpoint` - speed prescription
+* `measurementId` - unique measurement identifier
+* `plannedFrom` - planned from date
+* `plannedTo` - planned to date
+* `isPermanent` - is the JOB permanent
+* `currentState` - current state
+* `maximumProductionCoefficient` - maximum production coefficient
+* `order` - order
+* `commandGuid` - unique command identifier
+* `description` - description
+* `operations` - operations
+* `targetAmount` - target amount
+* `customFields` - custom fields
+
++ Response 200 (application/hal+json)
+    + Body
+
+        {
+          "resourceList": [
+            {
+              "jobTypeId": 42457026,
+              "title": "Zakázka 1",
+              "setpoint": 50,
+              "measurementId": 1770,
+              "plannedFrom": "2019-07-02T06:50:00Z",
+              "plannedTo": "2019-07-02T07:20:00Z",
+              "isPermanent": false,
+              "currentState": "Available",
+              "maximumProductionCoefficient": null,
+              "order": 1,
+              "commandGuid": "5ad8938c-21dc-4b51-9b2c-3a8bfb2b816d",
+              "description": null,
+              "operations": null,
+              "targetAmount": null,
+              "customFields": null,
+              "_links": [
+                {
+                  "rel": "self",
+                  "href": "~/Api/JobTypes/42457026",
+                  "title": null,
+                  "isTemplated": false
+                }
+              ],
+              "_embedded": null
+            },
+            {
+              "jobTypeId": 41205284,
+              "title": "01.SP",
+              "setpoint": 36.67,
+              "measurementId": 1771,
+              "plannedFrom": null,
+              "plannedTo": null,
+              "isPermanent": false,
+              "currentState": "Available",
+              "maximumProductionCoefficient": null,
+              "order": 1,
+              "commandGuid": "1d8a6a09-d957-4969-9c69-2a061d6c92f4",
+              "description": null,
+              "operations": null,
+              "targetAmount": null,
+              "customFields": null,
+              "_links": [
+                {
+                  "rel": "self",
+                  "href": "~/Api/JobTypes/41205284",
+                  "title": null,
+                  "isTemplated": false
+                }
+              ],
+              "_embedded": null
+            },
+          ]
+        }
