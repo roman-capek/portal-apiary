@@ -1154,7 +1154,7 @@ To upload a CSV with JOBs you need an access token and CSV file according to the
 
 Response for such actions is formed as the relative link to the location, where the result of the request should be checked. States Waiting and InProgress relates to waiting in queue of requests and processing progress. State Success indicates successful completion, state DataError occurs when CSV file contains invalid data and/or request for adjustment JOBs for measurements in which user have not sufficient rights.
 
-## Upload CSV file [/JobTypesImportCommand]
+## Upload CSV file [/JobTypesImportCommands]
 
 ### Upload CSV file [POST]
 
@@ -1164,37 +1164,23 @@ The content of these CSV file must be MIME multipart content and only single fil
 
 A response object has the following properties:
 
-* `guid` - unique identifier of the import operation
-* `result` - the result of import (Success, DataError when content of CSV is incorrect)
-* `processedDate` - processed date
+* `location` (string) - specifies the relative url with the result of the requested operation
 
-+ Request (multipart/form-data;)
-
-        -----------------------------153421205227485
-        Content-Disposition: form-data; name="__RequestVerificationToken"
-        
-        HLvE7CKX47OnPMyOQjcU2ErGlLs8sCzCBAGmT4nDQSjtZea7UezLzUlqPHc8rm0AM6JJWQVoAkYRnmvuDGzdXlixEaCPr1qvNdMpsQHocJvi_H8UL8Xir5L1TKySz4HwssXhU519lNFTx-WJ2LqbgA2
-        -----------------------------153421205227485
-        Content-Disposition: form-data; name="jobTypesFile"; filename="CSV zakázky.csv"
-        Content-Type: application/vnd.ms-excel
-        
-        Title,Setpoint,MeasurementId,PlannedFrom,PlannedTo
-        "JOB 1",12,1234,"2019-07-02T06:50:00Z","2019-07-02T07:20:00Z"
-        
-        -----------------------------153421205227485--
++ Request (multipart/form-data; boundary=boundary value)
+    + Body
+    
+            --{boundary value}
+            Content-Disposition: form-data; name="jobTypesFile"; filename="jobs.csv"
+            Content-Type: application/vnd.ms-excel
+            
+            {file content}
+            --{boundary value}--
 
 + Response 200 (application/hal+json)
     + Body
 
             {
-              "guid": "5ad8938c-21dc-4b51-9b2c-3a8bfb2b816d",
-              "result": "Success",
-              "processedDate": "2019-07-02T09:51:27.7243622Z",
-              "_links": {
-                "self": {
-                  "href": "/api/commandResults/5ad8938c-21dc-4b51-9b2c-3a8bfb2b816d"
-                }
-              }
+              "location":"api/commandResults/5ad8938c-21dc-4b51-9b2c-3a8bfb2b816d"
             }
 
 ## Get job types [/JobTypes]
